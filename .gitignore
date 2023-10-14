@@ -1,0 +1,6 @@
+# Build artifacts
+*.so
+*.o
+
+# Editor-specific files
+.vscode/

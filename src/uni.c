@@ -5,23 +5,29 @@
 #include <stdlib.h>
 
 #include <grapheme.h>
+#include <compat-5.3.h>
 
 int uni_lower(lua_State *L)
 {
     luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
 
+    // Retrieve the source string and its length
     size_t srclen;
     const char *src = lua_tolstring(L, 1, &srclen);
 
-    size_t destlen = grapheme_to_lowercase_utf8(src, srclen, NULL, 0);
-    char *dest = malloc(destlen + 1);
+    // Calculate the length of the destination string with the null terminator
+    size_t destlen = grapheme_to_lowercase_utf8(src, srclen, NULL, 0) + 1;
 
-    grapheme_to_lowercase_utf8(src, srclen, dest, destlen + 1);
-    dest[destlen] = '\0';
+    // Prepare the destination buffer
+    luaL_Buffer b;
+    char *dest = luaL_buffinitsize(L, &b, destlen);
 
-    lua_pushlstring(L, dest, destlen);
+    // Convert the source string to lowercase
+    grapheme_to_lowercase_utf8(src, srclen, dest, destlen);
 
-    free(dest);
+    // Push the destination string to the stack without the null terminator
+    luaL_pushresultsize(&b, destlen - 1);
+
     return 1;
 }
 

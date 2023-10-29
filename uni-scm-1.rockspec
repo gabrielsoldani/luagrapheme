@@ -43,7 +43,7 @@ build = {
          libdirs = { "$(GRAPHEME_LIBDIR)" },
          variables = {
             CFLAG_EXTRAS = {
-               "-Wall", "-Werror", "-pedantic"
+               "-std=c99", "-Wall", "-Werror", "-pedantic"
             }
          }
       }

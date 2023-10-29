@@ -29,7 +29,7 @@ external_dependencies = {
 }
 
 build_dependencies = {
-   "luarocks-build-extended"
+   "luarocks-build-extended >= 0.0.3, < 0.0.4"
 }
 
 build = {

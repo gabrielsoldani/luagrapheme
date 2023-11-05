@@ -14,16 +14,10 @@ describe("uni.reverse", function()
    end)
 
    it("works with ASCII characters", function()
-      assert.are.same(
-         as_codepoints("olleh"),
-         as_codepoints(uni.reverse("hello"))
-      )
+      assert.are.same(as_codepoints("olleh"), as_codepoints(uni.reverse("hello")))
    end)
 
    it("works with multi-code point grapheme clusters", function()
-      assert.are.same(
-         as_codepoints("👩‍🚀 auL"),
-         as_codepoints(uni.reverse("Lua 👩‍🚀"))
-      )
+      assert.are.same(as_codepoints("👩‍🚀 auL"), as_codepoints(uni.reverse("Lua 👩‍🚀")))
    end)
 end)

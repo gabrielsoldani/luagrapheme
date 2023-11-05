@@ -36,15 +36,21 @@ install: $(SONAME)
 clean:
 	$(RM) -f $(ANAME) $(SONAME) $(SRC:.c=.o)
 
-format: format-clang-format
+format: format-stylua format-clang-format
+
+format-stylua:
+	stylua spec/ *.rockspec
 
 format-clang-format:
 	$(CLANG_FORMAT) -i $(SRC:.c=.h)
 
-lint: lint-luacheck lint-clang-format
+lint: lint-luacheck lint-stylua lint-clang-format
 
 lint-luacheck:
 	$(LUACHECK) .
+
+lint-stylua:
+	$(STYLUA) --check spec/ *.rockspec
 
 lint-clang-format:
 	$(CLANG_FORMAT) --dry-run -Werror $(SRC)
@@ -57,4 +63,4 @@ src/uni.o: src/uni.c makefile config.mk
 $(SRC:.c=.o):
 	$(CC) -c -o $@ $(CFLAGS) $(@:.o=.c)
 
-.PHONY: all install clean format format-clang-format lint lint-luacheck lint-clang-format test
+.PHONY: all install clean format format-stylua format-clang-format lint lint-luacheck lint-stylua lint-clang-format test

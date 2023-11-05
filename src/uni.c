@@ -1,12 +1,13 @@
-#include <lua.h>
-#include <lualib.h>
-#include <lauxlib.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
-#include <grapheme.h>
+#include <lauxlib.h>
+#include <lua.h>
+#include <lualib.h>
+
 #include <compat-5.3.h>
+#include <grapheme.h>
 
 int uni_lower(lua_State *L)
 {
@@ -35,21 +36,24 @@ int uni_lower(lua_State *L)
     return 1;
 }
 
-typedef int(uni_foreach_grapheme_callback)(const char *str, size_t len, size_t off, size_t ret, void *state);
+typedef int(uni_foreach_grapheme_callback)(const char *str, size_t len,
+    size_t off, size_t ret, void *state);
 
-static void uni_foreach_grapheme(const char *str, size_t len, void *state, uni_foreach_grapheme_callback *fn)
+static void uni_foreach_grapheme(const char *str, size_t len, void *state,
+    uni_foreach_grapheme_callback *fn)
 {
     size_t off, ret;
     int stop = 0;
-    for (off = 0; off < len && !stop; off += ret)
-    {
+    for (off = 0; off < len && !stop; off += ret) {
         ret = grapheme_next_character_break_utf8(str + off, len - off);
         stop = fn(str, len, off, ret, state);
     }
 }
 
 static uni_foreach_grapheme_callback uni_len_callback;
-static int uni_len_callback(const char *str, size_t len, size_t off, size_t ret, void *state)
+
+static int uni_len_callback(const char *str, size_t len, size_t off, size_t ret,
+    void *state)
 {
     size_t *grapheme_len = (size_t *)state;
     (*grapheme_len)++;
@@ -76,7 +80,8 @@ int uni_len(lua_State *L)
 
 static uni_foreach_grapheme_callback uni_reverse_callback;
 
-static int uni_reverse_callback(const char *str, size_t len, size_t off, size_t ret, void *state)
+static int uni_reverse_callback(const char *str, size_t len, size_t off,
+    size_t ret, void *state)
 {
     char *dest = (char *)state;
     assert(len >= off + ret);

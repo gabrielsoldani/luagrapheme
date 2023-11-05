@@ -1,0 +1,128 @@
+Language: Cpp
+AlignAfterOpenBracket: DontAlign
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments:
+  Enabled: false
+AlignConsecutiveBitFields:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+AlignConsecutiveDeclarations:
+  Enabled: false
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+AlignEscapedNewlines: Left
+AlignOperands: Align
+AlignTrailingComments: true
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: false
+AttributeMacros:
+BinPackArguments: true
+BinPackParameters: true
+BitFieldColonSpacing: After
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterExternBlock: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterObjCDeclaration: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+BreakBeforeBinaryOperators: None
+BreakBeforeConceptDeclarations: Always
+BreakBeforeBraces: Stroustrup
+BreakBeforeTernaryOperators: true
+BreakStringLiterals: true
+ColumnLimit: 80
+CommentPragmas: ''
+ContinuationIndentWidth: 4
+DerivePointerAlignment: false
+DisableFormat: false
+ExperimentalAutoDetectBinPacking: false
+ForEachMacros:
+IfMacros:
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^".*"$'
+    Priority: 2
+    CaseSensitive: false
+  - Regex: '^<(lua.h|lualib.h|lauxlib.h)>$'
+    Priority: 3
+    CaseSensitive: false
+  - Regex: '^<(grapheme.h|compat-5.3.h)>$'
+    Priority: 4
+    CaseSensitive: false
+  - Regex: '.*'
+    Priority: 1
+    CaseSensitive: false
+IncludeIsMainRegex: ''
+IncludeIsMainSourceRegex: ''
+IndentCaseBlocks: false
+IndentCaseLabels: true
+IndentGotoLabels: false
+IndentPPDirectives: None
+IndentWidth: 4
+IndentWrappedFunctionNames: false
+InsertBraces: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+MacroBlockBegin: ''
+MacroBlockEnd: ''
+MaxEmptyLinesToKeep: 1
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakOpenParenthesis: 0
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyIndentedWhitespace: 0
+PenaltyReturnTypeOnItsOwnLine: 60
+PointerAlignment: Right
+PPIndentWidth: -1
+QualifierAlignment: Leave
+ReflowComments: true
+RemoveBracesLLVM: false
+SeparateDefinitionBlocks: Always
+SortIncludes: CaseInsensitive
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAroundPointerQualifiers: Before
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeParens: ControlStatements
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpacesBeforeTrailingComments: 1
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
+SpacesInSquareBrackets: false
+StatementAttributeLikeMacros:
+StatementMacros:
+TabWidth: 4
+UseTab: Never
+WhitespaceSensitiveMacros:
+...

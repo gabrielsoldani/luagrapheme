@@ -36,15 +36,18 @@ install: $(SONAME)
 clean:
 	$(RM) -f $(ANAME) $(SONAME) $(SRC:.c=.o)
 
-format:
-	$(CLANG_FORMAT) -i $(SRC)
+format: format-clang-format
 
-lint:
-	$(CLANG_FORMAT) --dry-run -Werror $(SRC)
+format-clang-format:
+	$(CLANG_FORMAT) -i $(SRC:.c=.h)
+
+lint: lint-luacheck lint-clang-format
+
+lint-luacheck:
 	$(LUACHECK) .
 
-test:
-	$(BUSTED) $(BUSTEDFLAGS)
+lint-clang-format:
+	$(CLANG_FORMAT) --dry-run -Werror $(SRC)
 
 $(SONAME): $(SRC:.c=.o)
 	$(CC) -o $@ $(SRC:.c=.o) $(LDFLAGS)
@@ -54,4 +57,4 @@ src/uni.o: src/uni.c makefile config.mk
 $(SRC:.c=.o):
 	$(CC) -c -o $@ $(CFLAGS) $(@:.o=.c)
 
-.PHONY: all install clean format lint test
+.PHONY: all install clean format format-clang-format lint lint-luacheck lint-clang-format test

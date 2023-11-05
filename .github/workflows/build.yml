@@ -1,16 +1,14 @@
 name: Build and test
 
 on:
-  workflow_run:
-    workflows:
-      - Lint
-    types:
-      - completed
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build_luarocks:
     name: Build and test with LuaRocks
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     strategy:
       fail-fast: false
       matrix:

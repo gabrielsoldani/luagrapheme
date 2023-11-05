@@ -55,6 +55,9 @@ lint-stylua:
 lint-clang-format:
 	$(CLANG_FORMAT) --dry-run -Werror $(SRC)
 
+test:
+	$(BUSTED) $(BUSTEDFLAGS)
+
 $(SONAME): $(SRC:.c=.o)
 	$(CC) -o $@ $(SRC:.c=.o) $(LDFLAGS)
 

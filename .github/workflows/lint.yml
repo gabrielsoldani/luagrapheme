@@ -7,8 +7,8 @@ on:
   pull_request:
 
 jobs:
-  luacheck:
-    name: Luacheck
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -26,5 +26,6 @@ jobs:
       - name: Setup 'luacheck'
         run: luarocks install luacheck
 
-      - name: Run 'luacheck'
-        run: luacheck .
+      - name: Run 'make lint'
+        run:
+          make CLANG_FORMAT="clang-format-15" lint

@@ -36,7 +36,11 @@ install: $(SONAME)
 clean:
 	$(RM) -f $(ANAME) $(SONAME) $(SRC:.c=.o)
 
+format:
+	$(CLANG_FORMAT) -i $(SRC)
+
 lint:
+	$(CLANG_FORMAT) --dry-run -Werror $(SRC)
 	$(LUACHECK) .
 
 test:
@@ -50,4 +54,4 @@ src/uni.o: src/uni.c makefile config.mk
 $(SRC:.c=.o):
 	$(CC) -c -o $@ $(CFLAGS) $(@:.o=.c)
 
-.PHONY: all install clean lint test
+.PHONY: all install clean format lint test

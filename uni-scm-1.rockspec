@@ -28,25 +28,25 @@ external_dependencies = {
    }
 }
 
-build_dependencies = {
-   "luarocks-build-extended >= 0.0.3, < 0.0.4"
-}
+build_dependencies = {}
 
 build = {
-   type = "extended",
-   modules = {
-      ["uni"] = {
-         sources = { "vendor/lua-compat-5.3/compat-5.3.c", "src/uni.c" },
-         libraries = { "grapheme" },
-         defines = {},
-         incdirs = { "vendor/lua-compat-5.3", "$(GRAPHEME_INCDIR)" },
-         libdirs = { "$(GRAPHEME_LIBDIR)" },
-         variables = {
-            CFLAG_EXTRAS = {
-               "-std=c99", "-Wall", "-Werror", "-pedantic"
-            }
-         }
-      }
+   type = "make",
+   build_variables = {
+      CFLAGS_EXTRA = "$(CFLAGS)",
+      LDFLAGS_EXTRA = "$(LIBFLAG)",
+      LUA_BINDIR = "$(LUA_BINDIR)",
+      LUA_INCDIR = "$(LUA_INCDIR)",
+      LUA = "$(LUA)",
+      GRAPHEME_LIBDIR = "$(GRAPHEME_LIBDIR)",
+      GRAPHEME_INCDIR = "$(GRAPHEME_INCDIR)",
+   },
+   install_variables = {
+      INST_PREFIX = "$(PREFIX)",
+      INST_BINDIR = "$(BINDIR)",
+      INST_LIBDIR = "$(LIBDIR)",
+      INST_LUADIR = "$(LUADIR)",
+      INST_CONFDIR = "$(CONFDIR)",
    }
 }
 
@@ -56,5 +56,7 @@ test_dependencies = {
 }
 
 test = {
-   type = "busted"
+   type = "command",
+   command = "make",
+   flags = { "test" }
 }

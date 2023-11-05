@@ -25,8 +25,6 @@ LDFLAGS = \
 	-l grapheme \
 	$(LDFLAGS_EXTRA)
 
-SOFLAGS = $(LDFLAGS)
-
 SRC = \
 	src/uni.c
 
@@ -45,7 +43,7 @@ test:
 	$(BUSTED) $(BUSTEDFLAGS)
 
 $(SONAME): $(SRC:.c=.o)
-	$(CC) -o $@ $(SOFLAGS) $(SRC:.c=.o)
+	$(CC) -o $@ $(SRC:.c=.o) $(LDFLAGS)
 
 src/uni.o: src/uni.c makefile config.mk
 

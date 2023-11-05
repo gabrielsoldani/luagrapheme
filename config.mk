@@ -8,20 +8,20 @@ CFLAGS_EXTRA = -O2 -fPIC
 LDFLAGS_EXTRA = -shared
 
 # Lua paths
-LUA_BINDIR = /usr/local/bin
-LUA_INCDIR = /usr/local/include
+LUA_BINDIR = /Users/gabriel/.asdf/installs/lua/5.4.6/bin
+LUA_INCDIR = /Users/gabriel/.asdf/installs/lua/5.4.6/include
 LUA = lua5.4
 
 # Grapheme paths
-GRAPHEME_LIBDIR = /usr/local/lib
-GRAPHEME_INCDIR = /usr/local/include
+GRAPHEME_LIBDIR = /opt/homebrew/lib
+GRAPHEME_INCDIR = /opt/homebrew/include
 
 # Install
-INST_PREFIX = /usr/local
+INST_PREFIX = /Users/gabriel/.asdf/installs/lua/5.4.6/luarocks/lib/luarocks/rocks-5.4/uni/scm-1
 INST_BINDIR = $(INST_PREFIX)/bin
-INST_LIBDIR = $(INST_PREFIX)/lib/lua/5.4
-INST_LUADIR = $(INST_PREFIX)/share/lua/5.4
-INST_CONFDIR = $(INST_PREFIX)/etc
+INST_LIBDIR = $(INST_PREFIX)/lib
+INST_LUADIR = $(INST_PREFIX)/lua
+INST_CONFDIR = $(INST_PREFIX)/conf
 
 # Test
 BUSTED = busted

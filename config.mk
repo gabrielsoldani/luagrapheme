@@ -31,4 +31,5 @@ BUSTEDFLAGS = -Xoutput "--color"
 RM = rm
 CP = cp
 LUACHECK = luacheck
+STYLUA = stylua
 CLANG_FORMAT = clang-format

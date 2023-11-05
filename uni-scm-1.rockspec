@@ -2,7 +2,7 @@ rockspec_format = "3.0"
 package = "uni"
 version = "scm-1"
 source = {
-   url = "git+https://github.com/gabrielsoldani/uni.git"
+   url = "git+https://github.com/gabrielsoldani/uni.git",
 }
 
 description = {
@@ -14,18 +14,18 @@ description = {
    homepage = "https://github.com/gabrielsoldani/uni",
    issues_url = "https://github.com/gabrielsoldani/uni/issues",
    maintainer = "Gabriel Soldani <gabriel@gabrielsoldani.com>",
-   labels = { "unicode", "grapheme", "text", "utf-8" }
+   labels = { "unicode", "grapheme", "text", "utf-8" },
 }
 
 dependencies = {
-   "lua >= 5.1, <= 5.4"
+   "lua >= 5.1, <= 5.4",
 }
 
 external_dependencies = {
    GRAPHEME = {
       header = "grapheme.h",
       library = "grapheme",
-   }
+   },
 }
 
 build_dependencies = {}
@@ -47,16 +47,16 @@ build = {
       INST_LIBDIR = "$(LIBDIR)",
       INST_LUADIR = "$(LUADIR)",
       INST_CONFDIR = "$(CONFDIR)",
-   }
+   },
 }
 
 test_dependencies = {
    "busted ~> 2.1",
-   "compat53 >= 0.11, < 0.12"
+   "compat53 >= 0.11, < 0.12",
 }
 
 test = {
    type = "command",
    command = "make",
-   flags = { "test" }
+   flags = { "test" },
 }

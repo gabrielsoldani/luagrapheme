@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build_luarocks:
+  luarocks:
     name: Build and test with LuaRocks
     strategy:
       fail-fast: false
@@ -46,6 +46,37 @@ jobs:
 
       - name: Build 'uni'
         run: luarocks make
+
+      - name: Test 'uni'
+        run: luarocks test
+
+  ubsan:
+    name: UBSan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup 'libgrapheme'
+        run: |
+          git clone https://git.suckless.org/libgrapheme
+          cd libgrapheme
+          ./configure
+          sudo make install
+
+      - name: Setup 'lua'
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: 5.1.5
+
+      - name: Setup 'luarocks'
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Build 'uni'
+        run: >
+          luarocks make
+          CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
+          LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
 
       - name: Test 'uni'
         run: luarocks test

@@ -39,3 +39,17 @@ jobs:
 
       - name: Run 'make lint-luacheck'
         run: make lint-luacheck
+
+  stylua:
+    name: StyLua
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup 'stylua'
+        run: npm install -g @johnnymorganz/stylua-bin@0.18.2
+
+      - name: Run 'make lint-stylua'
+        run: make lint-stylua

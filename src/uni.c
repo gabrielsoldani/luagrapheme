@@ -14,50 +14,36 @@ int uni_lower(lua_State *L)
     luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
 
     // Retrieve the source string and its length
-    size_t srclen;
-    const char *src = lua_tolstring(L, 1, &srclen);
+    size_t src_len;
+    const char *src = lua_tolstring(L, 1, &src_len);
 
     // Calculate the length of the destination string with the null terminator
     // NOTE: `grapheme_to_lowercase_utf8` expects to place a null terminator at
     // the end of the destination buffer, but does *not* expect one at the end
     // of the source buffer.
-    size_t destlen = grapheme_to_lowercase_utf8(src, srclen, NULL, 0) + 1;
+    size_t dest_len = grapheme_to_lowercase_utf8(src, src_len, NULL, 0) + 1;
 
     // Prepare the destination buffer
     luaL_Buffer b;
-    char *dest = luaL_buffinitsize(L, &b, destlen);
+    char *dest = luaL_buffinitsize(L, &b, dest_len);
 
     // Convert the source string to lowercase
-    grapheme_to_lowercase_utf8(src, srclen, dest, destlen);
+    grapheme_to_lowercase_utf8(src, src_len, dest, dest_len);
 
     // Push the destination string onto the stack without the null terminator
-    luaL_pushresultsize(&b, destlen - 1);
+    luaL_pushresultsize(&b, dest_len - 1);
 
     return 1;
 }
 
-typedef int(uni_foreach_grapheme_callback)(const char *str, size_t len,
-    size_t off, size_t ret, void *state);
-
-static void uni_foreach_grapheme(const char *str, size_t len, void *state,
-    uni_foreach_grapheme_callback *fn)
+static inline size_t s_grapheme_len(const char *str, size_t byte_len)
 {
-    size_t off, ret;
-    int stop = 0;
-    for (off = 0; off < len && !stop; off += ret) {
-        ret = grapheme_next_character_break_utf8(str + off, len - off);
-        stop = fn(str, len, off, ret, state);
+    size_t grapheme_len = 0;
+    for (size_t offset = 0, inc; offset < byte_len; offset += inc) {
+        inc = grapheme_next_character_break_utf8(str + offset, byte_len - offset);
+        grapheme_len++;
     }
-}
-
-static uni_foreach_grapheme_callback uni_len_callback;
-
-static int uni_len_callback(const char *str, size_t len, size_t off, size_t ret,
-    void *state)
-{
-    size_t *grapheme_len = (size_t *)state;
-    (*grapheme_len)++;
-    return 0;
+    return grapheme_len;
 }
 
 int uni_len(lua_State *L)
@@ -68,9 +54,8 @@ int uni_len(lua_State *L)
     size_t byte_len;
     const char *str = lua_tolstring(L, 1, &byte_len);
 
-    // Call helper to count graphemes
-    size_t grapheme_len = 0;
-    uni_foreach_grapheme(str, byte_len, &grapheme_len, uni_len_callback);
+    // Count graphemes
+    size_t grapheme_len = s_grapheme_len(str, byte_len);
 
     // Push the number of graphemes onto the stack
     lua_pushinteger(L, grapheme_len);
@@ -78,26 +63,31 @@ int uni_len(lua_State *L)
     return 1;
 }
 
-static uni_foreach_grapheme_callback uni_reverse_callback;
-
-static int uni_reverse_callback(const char *str, size_t len, size_t off,
-    size_t ret, void *state)
-{
-    char *dest = (char *)state;
-    assert(len >= off + ret);
-    memcpy(dest + len - off - ret, str + off, ret);
-    return 0;
-}
-
 int uni_reverse(lua_State *L)
 {
     luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
 
-    size_t srclen;
-    const char *src = lua_tolstring(L, 1, &srclen);
+    // Retrieve the source string and its length
+    size_t byte_len;
+    const char *src = lua_tolstring(L, 1, &byte_len);
 
-    // TODO: Verify if the destination is always the same size as the source.
-    size_t destlen = srclen;
+    // Prepare the destination buffer
+    luaL_Buffer b;
+    char *dest = luaL_buffinitsize(L, &b, byte_len);
+
+    // Iterate over the source string
+    for (size_t offset = 0, inc; offset < byte_len; offset += inc) {
+        inc = grapheme_next_character_break_utf8(src + offset, byte_len - offset);
+
+        // Copy to the end of the destination buffer
+        memcpy(dest + byte_len - offset - inc, src + offset, inc);
+    }
+
+    // Push the destination string onto the stack
+    luaL_pushresultsize(&b, byte_len);
+
+    return 1;
+}
 
     // Prepare the destination buffer
     luaL_Buffer b;

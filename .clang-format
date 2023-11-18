@@ -55,7 +55,7 @@ BreakBeforeConceptDeclarations: Always
 BreakBeforeBraces: Stroustrup
 BreakBeforeTernaryOperators: true
 BreakStringLiterals: true
-ColumnLimit: 80
+ColumnLimit: 120
 CommentPragmas: ''
 ContinuationIndentWidth: 4
 DerivePointerAlignment: false

@@ -36,6 +36,33 @@ int uni_lower(lua_State *L)
     return 1;
 }
 
+int uni_upper(lua_State *L)
+{
+    luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
+
+    // Retrieve the source string and its length
+    size_t src_len;
+    const char *src = lua_tolstring(L, 1, &src_len);
+
+    // Calculate the length of the destination string with the null terminator
+    // NOTE: `grapheme_to_uppercase_utf8` expects to place a null terminator at
+    // the end of the destination buffer, but does *not* expect one at the end
+    // of the source buffer.
+    size_t dest_len = grapheme_to_uppercase_utf8(src, src_len, NULL, 0) + 1;
+
+    // Prepare the destination buffer
+    luaL_Buffer b;
+    char *dest = luaL_buffinitsize(L, &b, dest_len);
+
+    // Convert the source string to uppercase
+    grapheme_to_uppercase_utf8(src, src_len, dest, dest_len);
+
+    // Push the destination string onto the stack without the null terminator
+    luaL_pushresultsize(&b, dest_len - 1);
+
+    return 1;
+}
+
 static inline size_t s_grapheme_len(const char *str, size_t byte_len)
 {
     size_t grapheme_len = 0;
@@ -111,6 +138,9 @@ int luaopen_uni(lua_State *L)
 
     lua_pushcclosure(L, uni_lower, 0);
     lua_setfield(L, -2, "lower");
+
+    lua_pushcclosure(L, uni_upper, 0);
+    lua_setfield(L, -2, "upper");
 
     lua_pushcclosure(L, uni_len, 0);
     lua_setfield(L, -2, "len");

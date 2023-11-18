@@ -26,6 +26,7 @@ indent_size = 4
 
 [*.{lua,rockspec,busted,luacheckrc}]
 indent_size = 3
+column_width = 120
 sort_requires = true
 
 [*.yml]

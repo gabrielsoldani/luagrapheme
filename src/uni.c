@@ -232,7 +232,7 @@ int luaopen_uni(lua_State *L)
 {
     lua_newtable(L);
 
-    lua_pushliteral(L, "0.1.0");
+    lua_pushliteral(L, VERSION);
     lua_setfield(L, -2, "_VERSION");
 
     luaL_setfuncs(L, funcs, 0);

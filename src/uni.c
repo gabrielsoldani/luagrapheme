@@ -9,7 +9,7 @@
 #include <compat-5.3.h>
 #include <grapheme.h>
 
-int uni_lower(lua_State *L)
+static int uni_lower(lua_State *L)
 {
     luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
 
@@ -36,7 +36,7 @@ int uni_lower(lua_State *L)
     return 1;
 }
 
-int uni_upper(lua_State *L)
+static int uni_upper(lua_State *L)
 {
     luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
 
@@ -73,7 +73,7 @@ static inline size_t s_grapheme_len(const char *str, size_t byte_len)
     return grapheme_len;
 }
 
-int uni_len(lua_State *L)
+static int uni_len(lua_State *L)
 {
     luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
 
@@ -90,7 +90,7 @@ int uni_len(lua_State *L)
     return 1;
 }
 
-int uni_reverse(lua_State *L)
+static int uni_reverse(lua_State *L)
 {
     luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
 
@@ -180,7 +180,7 @@ static size_t s_grapheme_sub(const char * restrict src, size_t src_len, char * r
     return dest_off;
 }
 
-int uni_sub(lua_State *L)
+static int uni_sub(lua_State *L)
 {
     luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
     luaL_argcheck(L, lua_isinteger(L, 2), 2, "integer expected");
@@ -219,6 +219,15 @@ int uni_sub(lua_State *L)
     return 1;
 }
 
+static luaL_Reg funcs[] = {
+    {  "lower",   uni_lower},
+    {  "upper",   uni_upper},
+    {    "len",     uni_len},
+    {"reverse", uni_reverse},
+    {    "sub",     uni_sub},
+    {     NULL,        NULL}
+};
+
 int luaopen_uni(lua_State *L)
 {
     lua_newtable(L);
@@ -226,20 +235,7 @@ int luaopen_uni(lua_State *L)
     lua_pushliteral(L, "0.1.0");
     lua_setfield(L, -2, "_VERSION");
 
-    lua_pushcclosure(L, uni_lower, 0);
-    lua_setfield(L, -2, "lower");
-
-    lua_pushcclosure(L, uni_upper, 0);
-    lua_setfield(L, -2, "upper");
-
-    lua_pushcclosure(L, uni_len, 0);
-    lua_setfield(L, -2, "len");
-
-    lua_pushcclosure(L, uni_reverse, 0);
-    lua_setfield(L, -2, "reverse");
-
-    lua_pushcclosure(L, uni_sub, 0);
-    lua_setfield(L, -2, "sub");
+    luaL_setfuncs(L, funcs, 0);
 
     return 1;
 }

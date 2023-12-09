@@ -219,13 +219,60 @@ static int uni_sub(lua_State *L)
     return 1;
 }
 
+static int uni_graphemes_next(lua_State *L)
+{
+    // Retrieve the iterated over string and its length
+    size_t byte_len;
+    const char *str = lua_tolstring(L, lua_upvalueindex(1), &byte_len);
+
+    // Retrieve the byte offset for the next iteration
+    lua_Integer off = lua_tointeger(L, lua_upvalueindex(2));
+
+    if (off >= byte_len) {
+        // The iterator is exhausted
+        lua_pushnil(L);
+        return 1;
+    }
+
+    size_t inc = grapheme_next_character_break_utf8(str + off, byte_len - off);
+
+    if (inc == 0) {
+        // The iterator is exhausted
+        lua_pushnil(L);
+        return 1;
+    }
+
+    // Update the byte offset for the next iteration
+    lua_pushinteger(L, off + inc);
+    lua_replace(L, lua_upvalueindex(2));
+
+    // Push the next grapheme onto the stack
+    lua_pushlstring(L, str + off, inc);
+
+    return 1;
+}
+
+static int uni_graphemes(lua_State *L)
+{
+    luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
+
+    // Byte offset for the next iteration
+    lua_pushinteger(L, 0);
+
+    // Push the iterator, closed over the string and the byte offset
+    lua_pushcclosure(L, uni_graphemes_next, 2);
+
+    return 1;
+}
+
 static luaL_Reg funcs[] = {
-    {  "lower",   uni_lower},
-    {  "upper",   uni_upper},
-    {    "len",     uni_len},
-    {"reverse", uni_reverse},
-    {    "sub",     uni_sub},
-    {     NULL,        NULL}
+    {    "lower",     uni_lower},
+    {    "upper",     uni_upper},
+    {      "len",       uni_len},
+    {  "reverse",   uni_reverse},
+    {      "sub",       uni_sub},
+    {"graphemes", uni_graphemes},
+    {       NULL,          NULL}
 };
 
 int luaopen_uni(lua_State *L)

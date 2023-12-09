@@ -195,3 +195,38 @@ print(uni.upper("русский"))
 -- Outputs "À", transforming "a" to "A" and maintaining the COMBINING GRAVE ACCENT
 print(uni.upper("a\u{0300}"))
 ```
+
+### `uni.graphemes(s)`
+
+Returns a generator function that returns the grapheme clusters in `s` one at a time.
+
+#### Parameters
+
+- `s`: The UTF-8-encoded string to iterate over.
+
+#### Behavior
+
+The function returns a generator function that, when called, returns the next grapheme cluster in the string `s` on each call. If there are no more grapheme clusters to return, it returns `nil`.
+
+The return of this function can be used in a generic `for` statement.
+
+#### Examples
+
+```lua
+-- Outputs "h", "e", "l", "l", "o"
+for grapheme in uni.graphemes("hello") do
+  print(grapheme)
+end
+
+-- Outputs "👩‍🚀", " ", "L", "u", "a"
+for grapheme in uni.graphemes("👩‍🚀 Lua") do
+  print(grapheme)
+end
+
+local next = uni.graphemes("Hi 🧑‍💻")
+print(next()) -- Outputs "H"
+print(next()) -- Outputs "i"
+print(next()) -- Outputs " "
+print(next()) -- Outputs "🧑‍💻"
+print(next()) -- Outputs nil
+```

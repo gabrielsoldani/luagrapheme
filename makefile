@@ -28,10 +28,19 @@ LDFLAGS = \
 SRC = \
 	src/uni.c
 
+LUASRC =
+
+
 all: $(SONAME)
 
-install: $(SONAME)
-	cp $(SONAME) $(INST_LIBDIR)/$(SONAME)
+install: $(SONAME) $(LUASRC)
+	mkdir -p $(INST_LIBDIR)
+	cp -f $(SONAME) $(INST_LIBDIR)/$(SONAME)
+	mkdir -p $(INST_LUADIR)/uni
+	for file in $(LUASRC); do \
+		mkdir -p $(INST_LUADIR)/uni/$$(dirname $${file#src/}); \
+		cp -f $$file $(INST_LUADIR)/uni/$${file#src/}; \
+	done
 
 clean:
 	$(RM) -f $(ANAME) $(SONAME) $(SRC:.c=.o)

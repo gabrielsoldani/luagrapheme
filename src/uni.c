@@ -226,21 +226,15 @@ static int uni_graphemes_next(lua_State *L)
     const char *str = lua_tolstring(L, lua_upvalueindex(1), &byte_len);
 
     // Retrieve the byte offset for the next iteration
-    lua_Integer off = lua_tointeger(L, lua_upvalueindex(2));
+    size_t off = (size_t)lua_tointeger(L, lua_upvalueindex(2));
 
+    // Check if the iterator is exhausted
     if (off >= byte_len) {
-        // The iterator is exhausted
         lua_pushnil(L);
         return 1;
     }
 
     size_t inc = grapheme_next_character_break_utf8(str + off, byte_len - off);
-
-    if (inc == 0) {
-        // The iterator is exhausted
-        lua_pushnil(L);
-        return 1;
-    }
 
     // Update the byte offset for the next iteration
     lua_pushinteger(L, off + inc);
@@ -254,8 +248,7 @@ static int uni_graphemes_next(lua_State *L)
 
 static int uni_graphemes(lua_State *L)
 {
-    luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
-
+    (void)luaL_checkstring(L, 1);
     // Byte offset for the next iteration
     lua_pushinteger(L, 0);
 

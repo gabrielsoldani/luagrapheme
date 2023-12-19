@@ -8,7 +8,7 @@ describe("uni.graphemes", function()
    it("errors when the input is not a string", function()
       assert.has_error(function()
          uni.graphemes(nil)
-      end, "bad argument #1 to 'graphemes' (string expected)")
+      end, "bad argument #1 to 'graphemes' (string expected, got nil)")
    end)
 
    it("returns a function", function()

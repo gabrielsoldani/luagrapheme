@@ -28,7 +28,8 @@ LDFLAGS = \
 SRC = \
 	src/uni.c
 
-LUASRC =
+LUASRC = \
+	src/lpeg_ext.lua
 
 
 all: $(SONAME)

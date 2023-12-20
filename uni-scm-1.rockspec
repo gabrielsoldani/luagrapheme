@@ -53,6 +53,7 @@ build = {
 test_dependencies = {
    "busted ~> 2.1",
    "compat53 >= 0.11, < 0.12",
+   "lpeg ~> 1.1",
 }
 
 test = {

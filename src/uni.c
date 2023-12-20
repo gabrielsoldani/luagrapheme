@@ -320,15 +320,61 @@ static int uni_grapheme_breaks(lua_State *L)
     return 1;
 }
 
+static inline int is_utf8_continuation_byte(char c)
+{
+    return (c & 0xC0) == 0x80;
+}
+
+static int is_grapheme_break(lua_State *L)
+{
+    // Retrieve the string and its length
+    size_t byte_len;
+    const char *str = luaL_checklstring(L, 1, &byte_len);
+
+    // Retrieve the byte index, 1-based.
+    lua_Integer byte_index = luaL_checkinteger(L, 2);
+
+    // Bounds check, but allow indexing 1 past the end of the string.
+    luaL_argcheck(L, byte_index >= 1 && (size_t)byte_index <= byte_len + 1, 2, "index out of range");
+
+    // Correct for 0-based indexing
+    size_t offset = (size_t)byte_index - 1;
+
+    // Fast path: 1 past the end of the string is always a grapheme break.
+    if (offset == byte_len) {
+        lua_pushboolean(L, 1);
+        return 1;
+    }
+
+    // Fast path: if we're in the middle of a codepoint, it can't be a grapheme break.
+    if (is_utf8_continuation_byte(str[offset])) {
+        lua_pushboolean(L, 0);
+        return 1;
+    }
+
+    // Otherwise, advance linearly until we reach the desired offset.
+    size_t break_offset = 0;
+    for (size_t inc; break_offset < offset; break_offset += inc) {
+        inc = grapheme_next_character_break_utf8(str + break_offset, byte_len - break_offset);
+    }
+
+    // Two cases follow: either we've reached the desired offset, so it's a
+    // grapheme break, or we've gone past it, so it's not.
+    lua_pushboolean(L, break_offset == offset);
+
+    return 1;
+}
+
 static luaL_Reg funcs[] = {
-    {          "lower",           uni_lower},
-    {          "upper",           uni_upper},
-    {            "len",             uni_len},
-    {        "reverse",         uni_reverse},
-    {            "sub",             uni_sub},
-    {"grapheme_breaks", uni_grapheme_breaks},
-    {      "graphemes",       uni_graphemes},
-    {             NULL,                NULL}
+    {            "lower",           uni_lower},
+    {            "upper",           uni_upper},
+    {              "len",             uni_len},
+    {          "reverse",         uni_reverse},
+    {              "sub",             uni_sub},
+    {  "grapheme_breaks", uni_grapheme_breaks},
+    {        "graphemes",       uni_graphemes},
+    {"is_grapheme_break",   is_grapheme_break},
+    {               NULL,                NULL}
 };
 
 int luaopen_uni(lua_State *L)

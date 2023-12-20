@@ -365,16 +365,75 @@ static int is_grapheme_break(lua_State *L)
     return 1;
 }
 
+static int lpeg_ext_GraphemeCount_closure(lua_State *L)
+{
+    // Retrieve the grapheme count from the closure
+    size_t count = lua_tointeger(L, lua_upvalueindex(1));
+
+    // Retrieve the string and its length
+    size_t byte_len;
+    const char *str = luaL_checklstring(L, 1, &byte_len);
+
+    // Retrieve the byte index, 1-based.
+    lua_Integer start_byte_index = luaL_checkinteger(L, 2);
+
+    // Bounds check, but allow indexing 1 past the end of the string.
+    luaL_argcheck(L, start_byte_index >= 1 && (size_t)start_byte_index <= byte_len + 1, 2, "index out of range");
+
+    // Correct for 0-based indexing
+    size_t start_offset = (size_t)start_byte_index - 1;
+
+    // Fast path: since every grapheme is at least 1 byte long, we can avoid
+    // counting graphemes if str[start_offset] is shorter than `count` bytes.
+    if (count + start_offset > byte_len) {
+        lua_pushboolean(L, 0);
+        return 1;
+    }
+
+    // Check if byte_index is a grapheme break? Maybe.
+
+    // Advance linearly.
+    size_t i, offset, inc;
+    for (i = 0, offset = start_offset; i < count && offset < byte_len; ++i, offset += inc) {
+        inc = grapheme_next_character_break_utf8(str + offset, byte_len - offset);
+    }
+
+    // If we stopped because we reached the end of the string, we don't have
+    // enough graphemes.
+    if (i != count) {
+        // Return false
+        lua_pushboolean(L, 0);
+        return 1;
+    }
+
+    // Otherwise, `offset` contains the offset of the grapheme in the string
+    // after `count` graphemes. Convert it to a 1-based index.
+    lua_pushinteger(L, offset + 1);
+    return 1;
+}
+
+static int lpeg_ext_GraphemeCount(lua_State *L)
+{
+    // Retrieve the grapheme count.
+    lua_Integer byte_index = luaL_checkinteger(L, 1);
+
+    luaL_argcheck(L, byte_index > 0, 1, "count must be positive");
+
+    lua_pushcclosure(L, lpeg_ext_GraphemeCount_closure, 1);
+    return 1;
+}
+
 static luaL_Reg funcs[] = {
-    {            "lower",           uni_lower},
-    {            "upper",           uni_upper},
-    {              "len",             uni_len},
-    {          "reverse",         uni_reverse},
-    {              "sub",             uni_sub},
-    {  "grapheme_breaks", uni_grapheme_breaks},
-    {        "graphemes",       uni_graphemes},
-    {"is_grapheme_break",   is_grapheme_break},
-    {               NULL,                NULL}
+    {                  "lower",              uni_lower},
+    {                  "upper",              uni_upper},
+    {                    "len",                uni_len},
+    {                "reverse",            uni_reverse},
+    {                    "sub",                uni_sub},
+    {        "grapheme_breaks",    uni_grapheme_breaks},
+    {              "graphemes",          uni_graphemes},
+    {      "is_grapheme_break",      is_grapheme_break},
+    {"_lpeg_ext_GraphemeCount", lpeg_ext_GraphemeCount},
+    {                     NULL,                   NULL}
 };
 
 int luaopen_uni(lua_State *L)

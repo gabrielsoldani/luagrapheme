@@ -13,11 +13,9 @@
 
 static int uni_lower(lua_State *L)
 {
-    luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
-
     // Retrieve the source string and its length
     size_t src_len;
-    const char *src = lua_tolstring(L, 1, &src_len);
+    const char *src = luaL_checklstring(L, 1, &src_len);
 
     // Calculate the length of the destination string with the null terminator
     // NOTE: `grapheme_to_lowercase_utf8` expects to place a null terminator at
@@ -40,11 +38,9 @@ static int uni_lower(lua_State *L)
 
 static int uni_upper(lua_State *L)
 {
-    luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
-
     // Retrieve the source string and its length
     size_t src_len;
-    const char *src = lua_tolstring(L, 1, &src_len);
+    const char *src = luaL_checklstring(L, 1, &src_len);
 
     // Calculate the length of the destination string with the null terminator
     // NOTE: `grapheme_to_uppercase_utf8` expects to place a null terminator at
@@ -77,11 +73,9 @@ static inline size_t s_grapheme_len(const char *str, size_t byte_len)
 
 static int uni_len(lua_State *L)
 {
-    luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
-
     // Retrieve the source string and its length
     size_t byte_len;
-    const char *str = lua_tolstring(L, 1, &byte_len);
+    const char *str = luaL_checklstring(L, 1, &byte_len);
 
     // Count graphemes
     size_t grapheme_len = s_grapheme_len(str, byte_len);
@@ -94,11 +88,9 @@ static int uni_len(lua_State *L)
 
 static int uni_reverse(lua_State *L)
 {
-    luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
-
     // Retrieve the source string and its length
     size_t byte_len;
-    const char *src = lua_tolstring(L, 1, &byte_len);
+    const char *src = luaL_checklstring(L, 1, &byte_len);
 
     // Prepare the destination buffer
     luaL_Buffer b;
@@ -185,20 +177,16 @@ static size_t s_grapheme_sub(const char * restrict src, size_t src_len, char * r
 
 static int uni_sub(lua_State *L)
 {
-    luaL_argcheck(L, lua_isstring(L, 1), 1, "string expected");
-    luaL_argcheck(L, lua_isinteger(L, 2), 2, "integer expected");
-    luaL_argcheck(L, lua_isinteger(L, 3) || lua_isnoneornil(L, 3), 3, "integer or nil expected");
-
     // Retrieve the source string and its length
     size_t byte_len;
-    const char *src = lua_tolstring(L, 1, &byte_len);
+    const char *src = luaL_checklstring(L, 1, &byte_len);
 
     // Count graphemes. This is necessary to normalize the start and end positions.
     size_t grapheme_len = s_grapheme_len(src, byte_len);
 
     // Retrieve the start and end positions
-    size_t start = normalize_start_pos(lua_tointeger(L, 2), grapheme_len);
-    size_t end = normalize_end_pos(lua_isnoneornil(L, 3) ? -1 : lua_tointeger(L, 3), grapheme_len);
+    size_t start = normalize_start_pos(luaL_checkinteger(L, 2), grapheme_len);
+    size_t end = normalize_end_pos(luaL_optinteger(L, 3, -1), grapheme_len);
 
     // Bail out if the start offset is greater than the end offset
     if (start > end) {

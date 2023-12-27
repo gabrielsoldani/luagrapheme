@@ -46,4 +46,10 @@ describe("uni.lpeg_ext.GraphemeBreak", function()
       local pos = pattern:match(s)
       assert.are_equal(16, pos)
    end)
+
+   it("errors when using the caret operator", function()
+      assert.has_error(function()
+         local _ = GraphemeBreak ^ 2
+      end, "loop body may accept empty string")
+   end)
 end)

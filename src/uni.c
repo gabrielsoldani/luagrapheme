@@ -133,6 +133,7 @@ static int uni_sub(lua_State *L)
 static luaL_Reg funcs[] = {
     {                  "lower",                  lower},
     {                  "upper",                  upper},
+    {                  "title",                  title},
     {                    "len",        count_graphemes},
     {      "is_grapheme_break",      is_grapheme_break},
     {     "_match_n_graphemes",      match_n_graphemes},

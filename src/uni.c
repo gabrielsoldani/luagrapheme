@@ -158,14 +158,14 @@ static int uni_sub(lua_State *L)
 static luaL_Reg funcs[] = {
     {                  "lower",                  lower},
     {                  "upper",                  upper},
+    {      "is_grapheme_break",      is_grapheme_break},
+    {     "_match_n_graphemes",      match_n_graphemes},
+    {"_match_one_of_graphemes", match_one_of_graphemes},
+    {        "grapheme_breaks",        grapheme_breaks},
+    {              "graphemes",              graphemes},
     {                    "len",                uni_len},
     {                "reverse",            uni_reverse},
     {                    "sub",                uni_sub},
-    {        "grapheme_breaks",        grapheme_breaks},
-    {              "graphemes",              graphemes},
-    {      "is_grapheme_break",      is_grapheme_break},
-    {"_lpeg_ext_GraphemeCount",      match_n_graphemes},
-    {"_lpeg_ext_GraphemeOneOf", match_one_of_graphemes},
     {                     NULL,                   NULL}
 };
 

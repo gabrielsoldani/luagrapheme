@@ -27,6 +27,7 @@ LDFLAGS = \
 
 SRC = \
 	src/case.c \
+	src/count_segments.c \
 	src/is_segment_break.c \
 	src/match_n_segments.c \
 	src/match_one_of_graphemes.c \
@@ -79,6 +80,7 @@ $(SONAME): $(SRC:.c=.o)
 
 src/case.o: src/case.c src/uni.h makefile config.mk
 src/is_segment_break.o: src/is_segment_break.c src/uni.h src/utf8.h makefile config.mk
+src/count_segments.o: src/count_segments.c src/uni.h makefile config.mk
 src/match_n_segments.o: src/match_n_segments.c src/uni.h src/utf8.h makefile config.mk
 src/match_oneof_graphemes.o: src/match_oneof_graphemes.c src/uni.h src/utf8.h makefile config.mk
 src/segment_breaks.o: src/segment_breaks.c src/uni.h makefile config.mk

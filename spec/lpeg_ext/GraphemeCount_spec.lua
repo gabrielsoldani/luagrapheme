@@ -20,4 +20,12 @@ describe("uni.lpeg_ext.GraphemeCount", function()
       local pos = pattern:match(s)
       assert.are_equal(15, pos)
    end)
+
+   it("does not error when using the caret operator", function()
+      local pattern = GraphemeCount(2) ^ 2
+      local s = "hello"
+
+      local pos = pattern:match(s)
+      assert.are.equal(5, pos)
+   end)
 end)

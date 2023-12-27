@@ -6,31 +6,6 @@
 
 #include <grapheme.h>
 
-static inline size_t s_grapheme_len(const char *str, size_t byte_len)
-{
-    size_t grapheme_len = 0;
-    for (size_t offset = 0, inc; offset < byte_len; offset += inc) {
-        inc = grapheme_next_character_break_utf8(str + offset, byte_len - offset);
-        grapheme_len++;
-    }
-    return grapheme_len;
-}
-
-static int uni_len(lua_State *L)
-{
-    // Retrieve the source string and its length
-    size_t byte_len;
-    const char *str = luaL_checklstring(L, 1, &byte_len);
-
-    // Count graphemes
-    size_t grapheme_len = s_grapheme_len(str, byte_len);
-
-    // Push the number of graphemes onto the stack
-    lua_pushinteger(L, grapheme_len);
-
-    return 1;
-}
-
 static int uni_reverse(lua_State *L)
 {
     // Retrieve the source string and its length
@@ -127,7 +102,7 @@ static int uni_sub(lua_State *L)
     const char *src = luaL_checklstring(L, 1, &byte_len);
 
     // Count graphemes. This is necessary to normalize the start and end positions.
-    size_t grapheme_len = s_grapheme_len(src, byte_len);
+    size_t grapheme_len = c_count_graphemes(src, byte_len);
 
     // Retrieve the start and end positions
     size_t start = normalize_start_pos(luaL_checkinteger(L, 2), grapheme_len);
@@ -158,12 +133,12 @@ static int uni_sub(lua_State *L)
 static luaL_Reg funcs[] = {
     {                  "lower",                  lower},
     {                  "upper",                  upper},
+    {                    "len",        count_graphemes},
     {      "is_grapheme_break",      is_grapheme_break},
     {     "_match_n_graphemes",      match_n_graphemes},
     {"_match_one_of_graphemes", match_one_of_graphemes},
     {        "grapheme_breaks",        grapheme_breaks},
     {              "graphemes",              graphemes},
-    {                    "len",                uni_len},
     {                "reverse",            uni_reverse},
     {                    "sub",                uni_sub},
     {                     NULL,                   NULL}

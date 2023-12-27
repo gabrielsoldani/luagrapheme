@@ -22,4 +22,13 @@ describe("uni.lpeg_ext.GraphemeOneOf", function()
       local pos = pattern:match(s)
       assert.are_equal(14, pos)
    end)
+
+   it("does not error when using the caret operator", function()
+      local grapheme = GraphemeOneOf("h", "e", "l", "o")
+      local pattern = grapheme ^ 5
+      local s = "hello"
+
+      local pos = pattern:match(s)
+      assert.are.equal(6, pos)
+   end)
 end)

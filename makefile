@@ -29,7 +29,7 @@ SRC = \
 	src/case.c \
 	src/is_segment_break.c \
 	src/match_n_segments.c \
-	src/match_oneof_graphemes.c \
+	src/match_one_of_graphemes.c \
 	src/segment_breaks.c \
 	src/segments.c \
 	src/uni.c

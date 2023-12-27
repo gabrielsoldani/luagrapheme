@@ -33,7 +33,7 @@ int match_n_lines(lua_State *);
 int match_n_words(lua_State *);
 int match_n_sentences(lua_State *);
 
-int match_oneof_graphemes(lua_State *);
+int match_one_of_graphemes(lua_State *);
 
 typedef size_t (* const next_segment_break_fn)(const char *, size_t);
 

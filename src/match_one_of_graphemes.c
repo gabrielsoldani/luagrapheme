@@ -5,7 +5,7 @@
 
 #include <grapheme.h>
 
-static int match_oneof_graphemes_closure(lua_State *L)
+static int match_one_of_graphemes_closure(lua_State *L)
 {
     int needle_count = lua_tointeger(L, lua_upvalueindex(1));
 
@@ -69,7 +69,7 @@ static int match_oneof_graphemes_closure(lua_State *L)
     return 1;
 }
 
-int match_oneof_graphemes(lua_State *L)
+int match_one_of_graphemes(lua_State *L)
 {
     int n_args = lua_gettop(L);
 
@@ -96,6 +96,6 @@ int match_oneof_graphemes(lua_State *L)
     lua_rotate(L, 1, 1);
 
     // Return the closure
-    lua_pushcclosure(L, match_oneof_graphemes_closure, n_args + 1);
+    lua_pushcclosure(L, match_one_of_graphemes_closure, n_args + 1);
     return 1;
 }

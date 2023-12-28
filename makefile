@@ -37,6 +37,9 @@ SRC = \
 	src/sub.c \
 	src/uni.c
 
+HDR = \
+	src/uni.h
+
 LUASRC = \
 	src/lpeg_ext.lua
 
@@ -61,7 +64,7 @@ format-stylua:
 	stylua spec/ *.rockspec
 
 format-clang-format:
-	$(CLANG_FORMAT) -i $(SRC:.c=.h)
+	$(CLANG_FORMAT) -i $(SRC) $(HDR)
 
 lint: lint-luacheck lint-stylua lint-clang-format
 
@@ -72,7 +75,7 @@ lint-stylua:
 	$(STYLUA) --check spec/ *.rockspec
 
 lint-clang-format:
-	$(CLANG_FORMAT) --dry-run -Werror $(SRC)
+	$(CLANG_FORMAT) --dry-run -Werror $(SRC) $(HDR)
 
 test:
 	$(BUSTED) $(BUSTEDFLAGS)

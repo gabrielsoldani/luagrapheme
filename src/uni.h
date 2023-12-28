@@ -2,6 +2,8 @@
 #define UNI_H
 
 #include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <lauxlib.h>
 #include <lua.h>
@@ -13,16 +15,18 @@ int lower(lua_State *);
 int upper(lua_State *);
 int title(lua_State *);
 
+int reverse_graphemes(lua_State *);
+
 size_t c_count_graphemes(const char *, size_t);
 int count_graphemes(lua_State *);
 int count_lines(lua_State *);
 int count_words(lua_State *);
 int count_sentences(lua_State *);
 
-int is_grapheme_break(lua_State *L);
-int is_line_break(lua_State *L);
-int is_word_break(lua_State *L);
-int is_sentence_break(lua_State *L);
+int is_grapheme_break(lua_State *);
+int is_line_break(lua_State *);
+int is_word_break(lua_State *);
+int is_sentence_break(lua_State *);
 
 int grapheme_breaks(lua_State *);
 int line_breaks(lua_State *);

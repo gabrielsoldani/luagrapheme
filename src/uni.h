@@ -16,6 +16,7 @@ int upper(lua_State *);
 int title(lua_State *);
 
 int reverse_graphemes(lua_State *);
+int graphemes_sub(lua_State *);
 
 size_t c_count_graphemes(const char *, size_t);
 int count_graphemes(lua_State *);

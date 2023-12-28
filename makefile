@@ -34,6 +34,7 @@ SRC = \
 	src/reverse.c \
 	src/segment_breaks.c \
 	src/segments.c \
+	src/sub.c \
 	src/uni.c
 
 LUASRC = \
@@ -84,9 +85,10 @@ src/is_segment_break.o: src/is_segment_break.c src/uni.h src/utf8.h makefile con
 src/count_segments.o: src/count_segments.c src/uni.h makefile config.mk
 src/match_n_segments.o: src/match_n_segments.c src/uni.h src/utf8.h makefile config.mk
 src/match_oneof_graphemes.o: src/match_oneof_graphemes.c src/uni.h src/utf8.h makefile config.mk
-src/reverse.o: src/reverse.c src/uni.h src/utf8.h makefile config.mk
+src/reverse.o: src/reverse.c src/uni.h makefile config.mk
 src/segment_breaks.o: src/segment_breaks.c src/uni.h makefile config.mk
 src/segments.o: src/segments.c src/uni.h makefile config.mk
+src/sub.o: src/sub.c src/uni.h makefile config.mk
 src/uni.o: src/uni.c src/uni.h makefile config.mk
 
 $(SRC:.c=.o):

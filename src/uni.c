@@ -1,34 +1,6 @@
 #include "uni.h"
 
-#include <assert.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <grapheme.h>
-
-static int uni_reverse(lua_State *L)
-{
-    // Retrieve the source string and its length
-    size_t byte_len;
-    const char *src = luaL_checklstring(L, 1, &byte_len);
-
-    // Prepare the destination buffer
-    luaL_Buffer b;
-    char *dest = luaL_buffinitsize(L, &b, byte_len);
-
-    // Iterate over the source string
-    for (size_t offset = 0, inc; offset < byte_len; offset += inc) {
-        inc = grapheme_next_character_break_utf8(src + offset, byte_len - offset);
-
-        // Copy to the end of the destination buffer
-        memcpy(dest + byte_len - offset - inc, src + offset, inc);
-    }
-
-    // Push the destination string onto the stack
-    luaL_pushresultsize(&b, byte_len);
-
-    return 1;
-}
 
 static inline size_t normalize_start_pos(lua_Integer pos, size_t len)
 {
@@ -140,7 +112,7 @@ static luaL_Reg funcs[] = {
     {"_match_one_of_graphemes", match_one_of_graphemes},
     {        "grapheme_breaks",        grapheme_breaks},
     {              "graphemes",              graphemes},
-    {                "reverse",            uni_reverse},
+    {                "reverse",      reverse_graphemes},
     {                    "sub",                uni_sub},
     {                     NULL,                   NULL}
 };

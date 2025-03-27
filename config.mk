@@ -1,5 +1,5 @@
 # Target configuration
-SONAME = uni.so
+SONAME = luagrapheme.so
 
 # Compiler
 CC = cc
@@ -17,7 +17,7 @@ GRAPHEME_LIBDIR = /opt/homebrew/lib
 GRAPHEME_INCDIR = /opt/homebrew/include
 
 # Install
-INST_PREFIX = /Users/gabriel/.asdf/installs/lua/5.4.6/luarocks/lib/luarocks/rocks-5.4/uni/scm-1
+INST_PREFIX = /Users/gabriel/.asdf/installs/lua/5.4.6/luarocks/lib/luarocks/rocks-5.4/luagrapheme/scm-1
 INST_BINDIR = $(INST_PREFIX)/bin
 INST_LIBDIR = $(INST_PREFIX)/lib
 INST_LUADIR = $(INST_PREFIX)/lua

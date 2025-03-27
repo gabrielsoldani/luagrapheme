@@ -1,4 +1,4 @@
-#include "uni.h"
+#include "luagrapheme.h"
 
 static luaL_Reg funcs[] = {
     {                  "lower",                  lower},
@@ -24,7 +24,7 @@ static luaL_Reg funcs[] = {
     {                     NULL,                   NULL}
 };
 
-int luaopen_uni(lua_State *L)
+int luaopen_luagrapheme(lua_State *L)
 {
     lua_newtable(L);
 

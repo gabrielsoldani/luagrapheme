@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "uni.h"
+#include "luagrapheme.h"
 #include "utf8.h"
 
 #include <grapheme.h>

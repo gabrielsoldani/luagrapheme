@@ -1,4 +1,4 @@
-# uni
+# luagrapheme
 
 ## Definitions
 
@@ -41,7 +41,7 @@ The term "character" is explicitly avoided in these definitions to prevent ambig
 
 ## Functions
 
-### `uni.sub(s, i [, j])`
+### `luagrapheme.sub(s, i [, j])`
 
 Returns the substring of `s` that starts at the `i`-th grapheme cluster and continues until `j` (also specified in grapheme clusters). Both `i` and `j` can be negative, indicating positions starting from the end of the string.
 
@@ -61,27 +61,27 @@ If `i` is less than `1` after any necessary translations, it is corrected to `1`
 
 ```lua
 -- Outputs "ell", as it includes grapheme clusters 2, 3, and 4
-print(uni.sub("hello", 2, 4))
+print(luagrapheme.sub("hello", 2, 4))
 
 -- Outputs "o", as -1 refers to the last grapheme cluster
-print(uni.sub("hello", -1))
+print(luagrapheme.sub("hello", -1))
 
 -- Outputs an empty string, as 5 is greater than 4
-print(uni.sub("hello", 5, 4))
+print(luagrapheme.sub("hello", 5, 4))
 
 -- Example with a grapheme cluster (Emoji: 👩‍🚀 WOMAN ASTRONAUT) composed of multiple code points
 -- String is "he👩‍🚀llo", and "👩‍🚀" occupies the 3rd grapheme cluster position
 -- Outputs "👩‍🚀", as it includes the grapheme cluster at position 3
-print(uni.sub("he👩‍🚀llo", 3, 3))
+print(luagrapheme.sub("he👩‍🚀llo", 3, 3))
 
 -- (Lua >= 5.3) Using escape sequences for Unicode code points
 -- The code points for the emoji 👩‍🚀 WOMAN ASTRONAUT are \u{1F469}\u{200D}\u{1F680}
 -- String is "he\u{1F469}\u{200D}\u{1F680}llo", and "👩‍🚀" occupies the 3rd grapheme cluster position
 -- Outputs "👩‍🚀", as it includes the grapheme cluster at position 3
-print(uni.sub("he\u{1F469}\u{200D}\u{1F680}llo", 3, 3))
+print(luagrapheme.sub("he\u{1F469}\u{200D}\u{1F680}llo", 3, 3))
 ```
 
-### `uni.len(s)`
+### `luagrapheme.len(s)`
 
 Receives a UTF-8 encoded string s and returns its length in grapheme clusters.
 
@@ -97,27 +97,27 @@ The function counts the length of the string in terms of grapheme clusters rathe
 
 ```lua
 -- Outputs "3", as the string has 3 grapheme clusters
-print(uni.len("Lua"))
+print(luagrapheme.len("Lua"))
 
 -- Outputs "6", as the string has 6 grapheme clusters including embedded zeros
-print(uni.len("a\000bc\000\000"))
+print(luagrapheme.len("a\000bc\000\000"))
 
 -- Outputs "0", as it"s an empty string
-print(uni.len(""))
+print(luagrapheme.len(""))
 
 -- Example with a grapheme cluster (Emoji: 👩‍🚀 WOMAN ASTRONAUT)
 -- String is "he👩‍🚀llo", and "👩‍🚀" is counted as a single grapheme cluster
 -- Outputs "6", as the string has 6 grapheme clusters
-print(uni.len("he👩‍🚀llo"))
+print(luagrapheme.len("he👩‍🚀llo"))
 
 -- (Lua >= 5.3) Using escape sequences for Unicode code points
 -- The code points for the emoji 👩‍🚀 WOMAN ASTRONAUT are \u{1F469}\u{200D}\u{1F680}
 -- String is "he\u{1F469}\u{200D}\u{1F680}llo"
 -- Outputs "6", as the string has 6 grapheme clusters
-print(uni.len("he\u{1F469}\u{200D}\u{1F680}llo"))
+print(luagrapheme.len("he\u{1F469}\u{200D}\u{1F680}llo"))
 ```
 
-### `uni.reverse(s)`
+### `luagrapheme.reverse(s)`
 
 Returns a new UTF-8-encoded string with the order of grapheme clusters in `s` reversed.
 
@@ -133,18 +133,18 @@ Each grapheme cluster in the string `s` is identified and reversed in its entire
 
 ```lua
 -- Outputs "olleh", reversing the 5 grapheme clusters
-print(uni.reverse("hello"))
+print(luagrapheme.reverse("hello"))
 
 -- Outputs "👩‍🚀 uaL", as the grapheme cluster "👩‍🚀" is preserved in its entirety
-print(uni.reverse("Lua 👩‍🚀"))
+print(luagrapheme.reverse("Lua 👩‍🚀"))
 
 -- (Lua >= 5.3) Using escape sequences for Unicode code points
 -- The code points for the emoji 👩‍🚀 WOMAN ASTRONAUT are \u{1F469}\u{200D}\u{1F680}
 -- Outputs "👩‍🚀 uaL", preserving the emoji as a single grapheme cluster
-print(uni.reverse("Lua \u{1F469}\u{200D}\u{1F680}"))
+print(luagrapheme.reverse("Lua \u{1F469}\u{200D}\u{1F680}"))
 ```
 
-### `uni.lower(s)`
+### `luagrapheme.lower(s)`
 
 Returns a new UTF-8-encoded string with all the alphabetic grapheme clusters in `s` converted to lowercase.
 
@@ -160,17 +160,17 @@ The function identifies each grapheme cluster in the string s and transforms all
 
 ```lua
 -- Outputs "hello", converting ASCII to lowercase
-print(uni.lower("HeLLo"))
+print(luagrapheme.lower("HeLLo"))
 
 -- Outputs "русский", converting Cyrillic to lowercase
-print(uni.lower("РУССКИЙ"))
+print(luagrapheme.lower("РУССКИЙ"))
 
 -- "À" ("A" + COMBINING GRAVE ACCENT)
 -- Outputs "à", transforming "A" to "a" and maintaining the COMBINING GRAVE ACCENT
-print(uni.lower("A\u{0300}"))
+print(luagrapheme.lower("A\u{0300}"))
 ```
 
-### `uni.upper(s)`
+### `luagrapheme.upper(s)`
 
 Returns a new UTF-8-encoded string with all the alphabetic grapheme clusters in `s` converted to uppercase.
 
@@ -186,17 +186,17 @@ The function identifies each grapheme cluster in the string s and transforms all
 
 ```lua
 -- Outputs "HELLO", converting ASCII to uppercase
-print(uni.upper("HeLLo"))
+print(luagrapheme.upper("HeLLo"))
 
 -- Outputs "РУССКИЙ", converting Cyrillic to uppercase
-print(uni.upper("русский"))
+print(luagrapheme.upper("русский"))
 
 -- "à" ("a" + COMBINING GRAVE ACCENT)
 -- Outputs "À", transforming "a" to "A" and maintaining the COMBINING GRAVE ACCENT
-print(uni.upper("a\u{0300}"))
+print(luagrapheme.upper("a\u{0300}"))
 ```
 
-### `uni.graphemes(s)`
+### `luagrapheme.graphemes(s)`
 
 Returns a generator function that returns the grapheme clusters in `s` one at a time.
 
@@ -214,16 +214,16 @@ The return of this function can be used in a generic `for` statement.
 
 ```lua
 -- Outputs "h", "e", "l", "l", "o"
-for grapheme in uni.graphemes("hello") do
+for grapheme in luagrapheme.graphemes("hello") do
   print(grapheme)
 end
 
 -- Outputs "👩‍🚀", " ", "L", "u", "a"
-for grapheme in uni.graphemes("👩‍🚀 Lua") do
+for grapheme in luagrapheme.graphemes("👩‍🚀 Lua") do
   print(grapheme)
 end
 
-local next = uni.graphemes("Hi 🧑‍💻")
+local next = luagrapheme.graphemes("Hi 🧑‍💻")
 print(next()) -- Outputs "H"
 print(next()) -- Outputs "i"
 print(next()) -- Outputs " "

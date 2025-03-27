@@ -1,6 +1,6 @@
-local GraphemeOneOf = require("uni.lpeg_ext").GraphemeOneOf
+local GraphemeOneOf = require("luagrapheme.lpeg_ext").GraphemeOneOf
 
-describe("uni.lpeg_ext.GraphemeOneOf", function()
+describe("luagrapheme.lpeg_ext.GraphemeOneOf", function()
    it("exists", function()
       assert.is_not_nil(GraphemeOneOf)
    end)

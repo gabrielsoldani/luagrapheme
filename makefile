@@ -35,10 +35,10 @@ SRC = \
 	src/segment_breaks.c \
 	src/segments.c \
 	src/sub.c \
-	src/uni.c
+	src/luagrapheme.c
 
 HDR = \
-	src/uni.h
+	src/luagrapheme.h
 
 LUASRC = \
 	src/lpeg_ext.lua
@@ -49,10 +49,10 @@ all: $(SONAME)
 install: $(SONAME) $(LUASRC)
 	mkdir -p $(INST_LIBDIR)
 	cp -f $(SONAME) $(INST_LIBDIR)/$(SONAME)
-	mkdir -p $(INST_LUADIR)/uni
+	mkdir -p $(INST_LUADIR)/luagrapheme
 	for file in $(LUASRC); do \
-		mkdir -p $(INST_LUADIR)/uni/$$(dirname $${file#src/}); \
-		cp -f $$file $(INST_LUADIR)/uni/$${file#src/}; \
+		mkdir -p $(INST_LUADIR)/luagrapheme/$$(dirname $${file#src/}); \
+		cp -f $$file $(INST_LUADIR)/luagrapheme/$${file#src/}; \
 	done
 
 clean:
@@ -83,16 +83,16 @@ test:
 $(SONAME): $(SRC:.c=.o)
 	$(CC) -o $@ $(SRC:.c=.o) $(LDFLAGS)
 
-src/case.o: src/case.c src/uni.h makefile config.mk
-src/is_segment_break.o: src/is_segment_break.c src/uni.h src/utf8.h makefile config.mk
-src/count_segments.o: src/count_segments.c src/uni.h makefile config.mk
-src/match_n_segments.o: src/match_n_segments.c src/uni.h src/utf8.h makefile config.mk
-src/match_oneof_graphemes.o: src/match_oneof_graphemes.c src/uni.h src/utf8.h makefile config.mk
-src/reverse.o: src/reverse.c src/uni.h makefile config.mk
-src/segment_breaks.o: src/segment_breaks.c src/uni.h makefile config.mk
-src/segments.o: src/segments.c src/uni.h makefile config.mk
-src/sub.o: src/sub.c src/uni.h makefile config.mk
-src/uni.o: src/uni.c src/uni.h makefile config.mk
+src/case.o: src/case.c src/luagrapheme.h makefile config.mk
+src/is_segment_break.o: src/is_segment_break.c src/luagrapheme.h src/utf8.h makefile config.mk
+src/count_segments.o: src/count_segments.c src/luagrapheme.h makefile config.mk
+src/match_n_segments.o: src/match_n_segments.c src/luagrapheme.h src/utf8.h makefile config.mk
+src/match_oneof_graphemes.o: src/match_oneof_graphemes.c src/luagrapheme.h src/utf8.h makefile config.mk
+src/reverse.o: src/reverse.c src/luagrapheme.h makefile config.mk
+src/segment_breaks.o: src/segment_breaks.c src/luagrapheme.h makefile config.mk
+src/segments.o: src/segments.c src/luagrapheme.h makefile config.mk
+src/sub.o: src/sub.c src/luagrapheme.h makefile config.mk
+src/luagrapheme.o: src/luagrapheme.c src/luagrapheme.h makefile config.mk
 
 $(SRC:.c=.o):
 	$(CC) -c -o $@ $(CFLAGS) $(@:.o=.c)

@@ -1,6 +1,6 @@
-local GraphemeCount = require("uni.lpeg_ext").GraphemeCount
+local GraphemeCount = require("luagrapheme.lpeg_ext").GraphemeCount
 
-describe("uni.lpeg_ext.GraphemeCount", function()
+describe("luagrapheme.lpeg_ext.GraphemeCount", function()
    it("exists", function()
       assert.is_not_nil(GraphemeCount)
    end)

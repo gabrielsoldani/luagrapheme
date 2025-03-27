@@ -1,6 +1,6 @@
-local _match_n_graphemes = require("uni")._match_n_graphemes
+local _match_n_graphemes = require("luagrapheme")._match_n_graphemes
 
-describe("uni._match_n_graphemes", function()
+describe("luagrapheme._match_n_graphemes", function()
    it("exists", function()
       assert.is_not_nil(_match_n_graphemes)
    end)

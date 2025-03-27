@@ -1,8 +1,8 @@
 rockspec_format = "3.0"
-package = "uni"
+package = "luagrapheme"
 version = "scm-1"
 source = {
-   url = "git+https://github.com/gabrielsoldani/uni.git",
+   url = "git+https://github.com/gabrielsoldani/luagrapheme.git",
 }
 
 description = {
@@ -11,8 +11,8 @@ description = {
       Unicode-aware text manipulation library.
    ]],
    license = "UNLICENSED",
-   homepage = "https://github.com/gabrielsoldani/uni",
-   issues_url = "https://github.com/gabrielsoldani/uni/issues",
+   homepage = "https://github.com/gabrielsoldani/luagrapheme",
+   issues_url = "https://github.com/gabrielsoldani/luagrapheme/issues",
    maintainer = "Gabriel Soldani <gabriel@gabrielsoldani.com>",
    labels = { "unicode", "grapheme", "text", "utf-8" },
 }

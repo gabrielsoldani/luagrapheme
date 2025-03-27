@@ -1,5 +1,5 @@
-#ifndef UNI_UTF8_H
-#define UNI_UTF8_H
+#ifndef LUAGRAPHEME_UTF8_H
+#define LUAGRAPHEME_UTF8_H
 
 static inline int is_utf8_continuation_byte(char c)
 {

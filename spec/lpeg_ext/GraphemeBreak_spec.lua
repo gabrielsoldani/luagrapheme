@@ -1,7 +1,7 @@
-local GraphemeBreak = require("uni.lpeg_ext").GraphemeBreak
+local GraphemeBreak = require("luagrapheme.lpeg_ext").GraphemeBreak
 local anywhere = require("spec.lpeg_ext.utils").anywhere
 
-describe("uni.lpeg_ext.GraphemeBreak", function()
+describe("luagrapheme.lpeg_ext.GraphemeBreak", function()
    it("exists", function()
       assert.is_not_nil(GraphemeBreak)
    end)

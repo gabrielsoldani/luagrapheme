@@ -1,5 +1,5 @@
-#ifndef UNI_H
-#define UNI_H
+#ifndef LUAGRAPHEME_H
+#define LUAGRAPHEME_H
 
 #include <assert.h>
 #include <stdlib.h>
@@ -50,4 +50,4 @@ typedef size_t (* const next_segment_break_fn)(const char *, size_t);
 
 #define ASSERT_UNREACHABLE() assert(!"unreachable")
 
-#endif // UNI_H
+#endif // LUAGRAPHEME_H

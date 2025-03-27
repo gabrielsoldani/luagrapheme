@@ -43,10 +43,10 @@ jobs:
       - name: Setup 'luarocks'
         uses: leafo/gh-actions-luarocks@v5
 
-      - name: Build 'uni'
+      - name: Build 'luagrapheme'
         run: luarocks make
 
-      - name: Test 'uni'
+      - name: Test 'luagrapheme'
         run: luarocks test
 
   ubsan:
@@ -71,11 +71,11 @@ jobs:
       - name: Setup 'luarocks'
         uses: leafo/gh-actions-luarocks@v5
 
-      - name: Build 'uni'
+      - name: Build 'luagrapheme'
         run: >
           luarocks make
           CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
           LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
 
-      - name: Test 'uni'
+      - name: Test 'luagrapheme'
         run: luarocks test

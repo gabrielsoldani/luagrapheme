@@ -42,7 +42,7 @@ jobs:
           luaVersion: ${{ matrix.lua_version }}
 
       - name: Setup 'luarocks'
-        uses: leafo/gh-actions-luarocks@v4
+        uses: leafo/gh-actions-luarocks@v5
 
       - name: Build 'uni'
         run: luarocks make
@@ -70,7 +70,7 @@ jobs:
           luaVersion: 5.1.5
 
       - name: Setup 'luarocks'
-        uses: leafo/gh-actions-luarocks@v4
+        uses: leafo/gh-actions-luarocks@v5
 
       - name: Build 'uni'
         run: >

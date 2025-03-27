@@ -37,7 +37,7 @@ jobs:
           sudo make install
 
       - name: Setup 'lua'
-        uses: leafo/gh-actions-lua@v10
+        uses: leafo/gh-actions-lua@v11
         with:
           luaVersion: ${{ matrix.lua_version }}
 
@@ -65,7 +65,7 @@ jobs:
           sudo make install
 
       - name: Setup 'lua'
-        uses: leafo/gh-actions-lua@v10
+        uses: leafo/gh-actions-lua@v11
         with:
           luaVersion: 5.1.5
 

@@ -9,7 +9,7 @@ on:
 jobs:
   clang-format:
     name: clang-format
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -20,7 +20,7 @@ jobs:
 
   luacheck:
     name: Luacheck
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -42,7 +42,7 @@ jobs:
 
   stylua:
     name: StyLua
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout

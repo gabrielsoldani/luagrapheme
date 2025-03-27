@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run 'make lint-clang-format'
-        run: make CLANG_FORMAT="clang-format-15" lint-clang-format
+        run: make CLANG_FORMAT="clang-format-18" lint-clang-format
 
   luacheck:
     name: Luacheck

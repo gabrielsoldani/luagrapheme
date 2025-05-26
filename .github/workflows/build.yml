@@ -48,7 +48,7 @@ jobs:
       - name: Build 'luagrapheme'
         run: |
           luarocks
-          luarocks make
+          luarocks make --verbose
 
       - name: Test 'luagrapheme'
         run: luarocks test
@@ -79,7 +79,7 @@ jobs:
 
       - name: Build 'luagrapheme'
         run: |
-          luarocks make \
+          luarocks make --verbose \
             CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined" \
             LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
 

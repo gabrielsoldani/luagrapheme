@@ -48,7 +48,6 @@ build = {
       CFLAGS_EXTRA = "$(CFLAGS)",
       LDFLAGS_EXTRA = "$(LIBFLAG)",
       LUA_BINDIR = "$(LUA_BINDIR)",
-      LUA_LIBDIR = "$(LUA_LIBDIR)",
       LUA_INCDIR = "$(LUA_INCDIR)",
       LUA = "$(LUA)",
       GRAPHEME_LIBDIR = "$(GRAPHEME_LIBDIR)",

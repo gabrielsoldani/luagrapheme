@@ -14,6 +14,7 @@ LDFLAGS = \
 	-L$(GRAPHEME_LIBDIR) \
 	-lgrapheme \
 	-L$(LUA_LIBDIR) \
+	-llua \
 	$(LDFLAGS_EXTRA)
 
 SRC = \

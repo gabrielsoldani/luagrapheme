@@ -42,6 +42,8 @@ jobs:
 
       - name: Setup 'luarocks'
         uses: leafo/gh-actions-luarocks@v5
+        with:
+          luarocksVersion: "3.10.0"
 
       - name: Build 'luagrapheme'
         run: |
@@ -72,11 +74,13 @@ jobs:
 
       - name: Setup 'luarocks'
         uses: leafo/gh-actions-luarocks@v5
+        with:
+          luarocksVersion: "3.10.0"
 
       - name: Build 'luagrapheme'
         run: |
           luarocks make \
-            CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
+            CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined" \
             LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
 
       - name: Test 'luagrapheme'

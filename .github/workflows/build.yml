@@ -44,7 +44,9 @@ jobs:
         uses: leafo/gh-actions-luarocks@v5
 
       - name: Build 'luagrapheme'
-        run: luarocks make --verbose
+        run: |
+          luarocks
+          luarocks make
 
       - name: Test 'luagrapheme'
         run: luarocks test
@@ -72,10 +74,10 @@ jobs:
         uses: leafo/gh-actions-luarocks@v5
 
       - name: Build 'luagrapheme'
-        run: >
-          luarocks make
-          CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
-          LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
+        run: |
+          luarocks make \
+            CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
+            LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
 
       - name: Test 'luagrapheme'
         run: luarocks test

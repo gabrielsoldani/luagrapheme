@@ -2,7 +2,7 @@
 local luagrapheme = require("luagrapheme")
 
 local function segment_text(segment_fn, input_file, output_file)
-   local input_text = input_file:read("a")
+   local input_text = input_file:read("*a")
    for i, j in segment_fn(input_text) do
       local segment = input_text:sub(i, j)
       local quoted_segment = string.format("%q", segment):gsub("\\\n", "\\n")

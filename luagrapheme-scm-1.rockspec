@@ -1,6 +1,9 @@
+local package_version = "scm"
+local rockspec_revision = "1"
+
 rockspec_format = "3.0"
 package = "luagrapheme"
-version = "scm-1"
+version = package_version .. "-" .. rockspec_revision
 source = {
    url = "git+https://github.com/gabrielsoldani/luagrapheme.git",
 }
@@ -32,7 +35,16 @@ build_dependencies = {}
 
 build = {
    type = "make",
+   variables = {
+      SO = "$(LIB_EXTENSION)",
+      O = "$(OBJ_EXTENSION)",
+      CP = "$(CP)",
+      MKDIR = "$(MKDIR)",
+      RM = "$(RM)",
+      LUAGRAPHEME_VERSION = package_version,
+   },
    build_variables = {
+      CC = "$(CC)",
       CFLAGS_EXTRA = "$(CFLAGS)",
       LDFLAGS_EXTRA = "$(LIBFLAG)",
       LUA_BINDIR = "$(LUA_BINDIR)",
@@ -46,7 +58,6 @@ build = {
       INST_BINDIR = "$(BINDIR)",
       INST_LIBDIR = "$(LIBDIR)",
       INST_LUADIR = "$(LUADIR)",
-      INST_CONFDIR = "$(CONFDIR)",
    },
 }
 
@@ -57,7 +68,5 @@ test_dependencies = {
 }
 
 test = {
-   type = "command",
-   command = "make",
-   flags = { "test" },
+   type = "busted",
 }

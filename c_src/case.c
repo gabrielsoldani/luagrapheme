@@ -29,17 +29,17 @@ static inline int case_(lua_State *L, to_case_fn to_case)
     return 1;
 }
 
-int lower(lua_State *L)
+int case_lower(lua_State *L)
 {
     return case_(L, grapheme_to_lowercase_utf8);
 }
 
-int upper(lua_State *L)
+int case_upper(lua_State *L)
 {
     return case_(L, grapheme_to_uppercase_utf8);
 }
 
-int title(lua_State *L)
+int case_title(lua_State *L)
 {
     return case_(L, grapheme_to_titlecase_utf8);
 }

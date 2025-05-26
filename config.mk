@@ -1,35 +1,40 @@
-# Target configuration
-SONAME = luagrapheme.so
+# Version information
+LUAGRAPHEME_VERSION = scm
 
-# Compiler
-CC = cc
-CFLAGS_BASE = -std=c99 -Wall -Werror -pedantic
-CFLAGS_EXTRA = -O2 -fPIC
-LDFLAGS_EXTRA = -shared
+# Library name
+SONAME = luagrapheme.$(SO)
 
-# Lua paths
-LUA_BINDIR = /Users/gabriel/.asdf/installs/lua/5.4.6/bin
-LUA_INCDIR = /Users/gabriel/.asdf/installs/lua/5.4.6/include
-LUA = lua5.4
+# Paths
+LUA = lua
+LUA_BINDIR =  /Users/gabriel/.asdf/installs/lua/5.4.6/bin
+LUA_INCDIR =  /Users/gabriel/.asdf/installs/lua/5.4.6/include
 
-# Grapheme paths
+# libgrapheme paths
 GRAPHEME_LIBDIR = /opt/homebrew/lib
 GRAPHEME_INCDIR = /opt/homebrew/include
 
-# Install
-INST_PREFIX = /Users/gabriel/.asdf/installs/lua/5.4.6/luarocks/lib/luarocks/rocks-5.4/luagrapheme/scm-1
+# Install paths
+INST_PREFIX = /Users/gabriel/.asdf/installs/lua/5.4.6
 INST_BINDIR = $(INST_PREFIX)/bin
 INST_LIBDIR = $(INST_PREFIX)/lib
-INST_LUADIR = $(INST_PREFIX)/lua
-INST_CONFDIR = $(INST_PREFIX)/conf
+INST_LUADIR = $(INST_PREFIX)/lua/5.4
 
-# Test
-BUSTED = busted
+# Flags
+CFLAGS_EXTRA =
+LDFLAGS_EXTRA = -bundle -undefined dynamic_lookup
 BUSTEDFLAGS = -Xoutput "--color"
 
-# Miscellaneous
-RM = rm
+# Extensions
+SO = so
+O = o
+
+# Tools
 CP = cp
+MKDIR = mkdir
+RM = rm
+CC = c99
+LD = gcc
+BUSTED = busted
 LUACHECK = luacheck
 STYLUA = stylua
 CLANG_FORMAT = clang-format

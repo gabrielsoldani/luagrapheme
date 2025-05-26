@@ -44,7 +44,7 @@ jobs:
         uses: leafo/gh-actions-luarocks@v5
 
       - name: Build 'luagrapheme'
-        run: luarocks make
+        run: luarocks make --verbose
 
       - name: Test 'luagrapheme'
         run: luarocks test

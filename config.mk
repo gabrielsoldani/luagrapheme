@@ -7,6 +7,7 @@ SONAME = luagrapheme.$(SO)
 # Paths
 LUA = lua
 LUA_BINDIR =  /Users/gabriel/.asdf/installs/lua/5.4.6/bin
+LUA_LIBDIR =  /Users/gabriel/.asdf/installs/lua/5.4.6/lib
 LUA_INCDIR =  /Users/gabriel/.asdf/installs/lua/5.4.6/include
 
 # libgrapheme paths

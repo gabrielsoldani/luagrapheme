@@ -5,14 +5,15 @@ include config.mk
 
 CFLAGS = \
 	-DLUAGRAPHEME_VERSION=\"$(LUAGRAPHEME_VERSION)\" \
-	-I $(LUA_INCDIR) \
-	-I $(GRAPHEME_INCDIR) \
-	-I vendor/lua-compat-5.3 \
+	-I$(LUA_INCDIR) \
+	-I$(GRAPHEME_INCDIR) \
+	-Ivendor/lua-compat-5.3 \
 	$(CFLAGS_EXTRA)
 
 LDFLAGS = \
-	-L $(GRAPHEME_LIBDIR) \
-	-l grapheme \
+	-L$(GRAPHEME_LIBDIR) \
+	-lgrapheme \
+	-L$(LUA_LIBDIR) \
 	$(LDFLAGS_EXTRA)
 
 SRC = \

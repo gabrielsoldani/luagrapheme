@@ -16,16 +16,12 @@ ALL_LDFLAGS = \
 	$(LDFLAGS)
 
 SRC = \
-	src/case.c \
-	src/luagrapheme.c \
-	src/lpeg.c \
-	src/segments.c
+	c_src/case.c \
+	c_src/luagrapheme.c \
+	c_src/segments.c
 
 HDR = \
-	src/luagrapheme.h
-
-LUASRC = \
-	src/_lpeg.lua
+	c_src/luagrapheme.h
 
 all: $(SONAME)
 
@@ -33,7 +29,7 @@ install: all
 	$(MKDIR) -p $(DESTDIR)$(LIBDIR)
 	$(CP) -f $(SONAME) $(DESTDIR)$(LIBDIR)/$(SONAME)
 	$(MKDIR) -p $(DESTDIR)$(LUADIR)/luagrapheme
-	$(CP) -f $(LUASRC) $(DESTDIR)$(LUADIR)/luagrapheme
+	$(CP) -Rf lua_src/. $(DESTDIR)$(LUADIR)/luagrapheme
 
 uninstall:
 	$(RM) -f $(INST_LIBDIR)/$(SONAME)
@@ -67,9 +63,9 @@ test:
 $(SONAME): $(SRC:.c=.$(O))
 	$(LD) -o $@ $(SRC:.c=.$(O)) $(ALL_LDFLAGS)
 
-src/case.$(O): src/case.c src/luagrapheme.h makefile config.mk
-src/luagrapheme.$(O): src/luagrapheme.c src/luagrapheme.h makefile config.mk
-src/segments.$(O): src/segments.c src/luagrapheme.h makefile config.mk
+c_src/case.$(O): c_src/case.c c_src/luagrapheme.h makefile config.mk
+c_src/luagrapheme.$(O): c_src/luagrapheme.c c_src/luagrapheme.h makefile config.mk
+c_src/segments.$(O): c_src/segments.c c_src/luagrapheme.h makefile config.mk
 
 $(SRC:.c=.$(O)):
 	$(CC) -c -o $@ $(ALL_CFLAGS) $(@:.$(O)=.c)

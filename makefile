@@ -3,33 +3,37 @@
 
 include config.mk
 
-CFLAGS = \
+ALL_CFLAGS = \
 	-DLUAGRAPHEME_VERSION=\"$(LUAGRAPHEME_VERSION)\" \
 	-I$(LUA_INCDIR) \
-	-I$(GRAPHEME_INCDIR) \
+	-I$(LIBGRAPHEME_INCDIR) \
 	-Ivendor/lua-compat-5.3 \
-	$(CFLAGS_EXTRA)
+	$(CFLAGS)
 
-LDFLAGS = \
-	-L$(GRAPHEME_LIBDIR) \
+ALL_LDFLAGS = \
+	-L$(LIBGRAPHEME_LIBDIR) \
 	-lgrapheme \
-	$(LDFLAGS_EXTRA)
+	$(LDFLAGS)
 
 SRC = \
-	c_src/case.c \
-	c_src/luagrapheme.c \
-	c_src/segments.c
+	src/case.c \
+	src/luagrapheme.c \
+	src/lpeg.c \
+	src/segments.c
 
 HDR = \
-	c_src/luagrapheme.h
+	src/luagrapheme.h
+
+LUASRC = \
+	src/_lpeg.lua
 
 all: $(SONAME)
 
 install: all
-	$(MKDIR) -p $(INST_LIBDIR)
-	$(CP) -f $(SONAME) $(INST_LIBDIR)/$(SONAME)
-	$(MKDIR) -p $(INST_LUADIR)/luagrapheme
-	$(CP) -Rf lua_src/. $(INST_LUADIR)/luagrapheme
+	$(MKDIR) -p $(DESTDIR)$(LIBDIR)
+	$(CP) -f $(SONAME) $(DESTDIR)$(LIBDIR)/$(SONAME)
+	$(MKDIR) -p $(DESTDIR)$(LUADIR)/luagrapheme
+	$(CP) -f $(LUASRC) $(DESTDIR)$(LUADIR)/luagrapheme
 
 uninstall:
 	$(RM) -f $(INST_LIBDIR)/$(SONAME)
@@ -61,13 +65,13 @@ test:
 	$(BUSTED) $(BUSTEDFLAGS)
 
 $(SONAME): $(SRC:.c=.$(O))
-	$(LD) -o $@ $(SRC:.c=.$(O)) $(LDFLAGS)
+	$(LD) -o $@ $(SRC:.c=.$(O)) $(ALL_LDFLAGS)
 
-c_src/case.$(O): c_src/case.c c_src/luagrapheme.h makefile config.mk
-c_src/luagrapheme.$(O): c_src/luagrapheme.c c_src/luagrapheme.h makefile config.mk
-c_src/segments.$(O): c_src/segments.c c_src/luagrapheme.h makefile config.mk
+src/case.$(O): src/case.c src/luagrapheme.h makefile config.mk
+src/luagrapheme.$(O): src/luagrapheme.c src/luagrapheme.h makefile config.mk
+src/segments.$(O): src/segments.c src/luagrapheme.h makefile config.mk
 
 $(SRC:.c=.$(O)):
-	$(CC) -c -o $@ $(CFLAGS) $(@:.$(O)=.c)
+	$(CC) -c -o $@ $(ALL_CFLAGS) $(@:.$(O)=.c)
 
 .PHONY: all install uninstall clean format format-stylua format-clang-format lint lint-luacheck lint-stylua lint-clang-format test

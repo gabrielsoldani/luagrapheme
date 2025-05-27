@@ -25,7 +25,7 @@ dependencies = {
 }
 
 external_dependencies = {
-   GRAPHEME = {
+   LIBGRAPHEME = {
       header = "grapheme.h",
       library = "grapheme",
    },
@@ -37,35 +37,36 @@ build = {
    type = "make",
    variables = {
       SO = "$(LIB_EXTENSION)",
+   },
+   build_variables = {
       O = "$(OBJ_EXTENSION)",
+      LUAGRAPHEME_VERSION = package_version,
+      CC = "$(CC)",
+      LD = "$(LD)",
+      CFLAGS = "$(CFLAGS)",
+      LDFLAGS = "$(LIBFLAG)",
+      LUA_DIR = "$(LUA_DIR)",
+      LUA_BINDIR = "$(LUA_BINDIR)",
+      LUA_INCDIR = "$(LUA_INCDIR)",
+      LIBGRAPHEME_DIR = "$(LIBGRAPHEME_DIR)",
+      LIBGRAPHEME_LIBDIR = "$(LIBGRAPHEME_LIBDIR)",
+      LIBGRAPHEME_INCDIR = "$(LIBGRAPHEME_INCDIR)",
+   },
+   install_variables = {
       CP = "$(CP)",
       MKDIR = "$(MKDIR)",
       RM = "$(RM)",
-      LUAGRAPHEME_VERSION = package_version,
+      PREFIX = "$(PREFIX)",
+      BINDIR = "$(BINDIR)",
+      LIBDIR = "$(LIBDIR)",
+      LUADIR = "$(LUADIR)",
    },
-   build_variables = {
-      CC = "$(CC)",
-      LD = "$(LD)",
-      CFLAGS_EXTRA = "$(CFLAGS)",
-      LDFLAGS_EXTRA = "$(LIBFLAG)",
-      LUA_BINDIR = "$(LUA_BINDIR)",
-      LUA_INCDIR = "$(LUA_INCDIR)",
-      LUA = "$(LUA)",
-      GRAPHEME_LIBDIR = "$(GRAPHEME_LIBDIR)",
-      GRAPHEME_INCDIR = "$(GRAPHEME_INCDIR)",
-   },
-   install_variables = {
-      INST_PREFIX = "$(PREFIX)",
-      INST_BINDIR = "$(BINDIR)",
-      INST_LIBDIR = "$(LIBDIR)",
-      INST_LUADIR = "$(LUADIR)",
-   }
 }
 
 test_dependencies = {
-   "busted ~> 2.1",
-   "compat53 >= 0.11, < 0.12",
-   "lpeg ~> 1.1",
+   "busted >= 2.1, <= 3.0",
+   "compat53 >= 0.11, <= 1.0",
+   "lpeg >= 1.1, <= 2.0",
 }
 
 test = {

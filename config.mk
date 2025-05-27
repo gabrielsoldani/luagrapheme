@@ -5,24 +5,28 @@ LUAGRAPHEME_VERSION = scm
 SONAME = luagrapheme.$(SO)
 
 # Paths
-LUA = lua
-LUA_BINDIR =  /Users/gabriel/.asdf/installs/lua/5.4.6/bin
-LUA_LIBDIR =  /Users/gabriel/.asdf/installs/lua/5.4.6/lib
-LUA_INCDIR =  /Users/gabriel/.asdf/installs/lua/5.4.6/include
+DESTDIR =
+PREFIX = /usr/local
+BINDIR = $(PREFIX)/bin
+LIBDIR = $(PREFIX)/lib
+INCDIR = $(PREFIX)/include
+LUADIR = $(PREFIX)
+
+LUA_VERSION = 5.4
+LUA_DIR = $(PREFIX)
+LUA_BINDIR =  $(BINDIR)
+LUA_LIBDIR =  $(LIBDIR)
+LUA_INCDIR =  $(INCDIR)
+LUADIR = $(PREFIX)/share/lua/$(LUA_VERSION)
 
 # libgrapheme paths
-GRAPHEME_LIBDIR = /opt/homebrew/lib
-GRAPHEME_INCDIR = /opt/homebrew/include
-
-# Install paths
-INST_PREFIX = /Users/gabriel/.asdf/installs/lua/5.4.6
-INST_BINDIR = $(INST_PREFIX)/bin
-INST_LIBDIR = $(INST_PREFIX)/lib
-INST_LUADIR = $(INST_PREFIX)/lua/5.4
+LIBGRAPHEME_DIR = $(PREFIX)
+LIBGRAPHEME_LIBDIR = $(LIBDIR)
+LIBGRAPHEME_INCDIR = $(INCDIR)
 
 # Flags
-CFLAGS_EXTRA =
-LDFLAGS_EXTRA = -bundle -undefined dynamic_lookup
+CFLAGS =
+LDFLAGS =
 BUSTEDFLAGS = -Xoutput "--color"
 
 # Extensions

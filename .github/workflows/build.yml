@@ -53,6 +53,49 @@ jobs:
       - name: Test 'luagrapheme'
         run: luarocks test
 
+  make:
+    name: Build with make
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+        lua_version:
+          - "5.4"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup 'libgrapheme'
+        run: |
+          git clone https://git.suckless.org/libgrapheme
+          cd libgrapheme
+          ./configure
+          sudo make install
+
+      - name: Setup 'lua'
+        uses: leafo/gh-actions-lua@v11
+        with:
+          luaVersion: ${{ matrix.lua_version }}
+
+      - name: Setup 'luarocks'
+        uses: leafo/gh-actions-luarocks@v5
+        # with:
+        #   luarocksVersion: "3.10.0"
+
+      - name: Install test dependencies
+        run: |
+          luarocks install busted
+          luarocks install lpeg
+
+      - name: Build 'luagrapheme'
+        run: make && make install
+
+      - name: Test 'luagrapheme'
+        run: make test
+
   ubsan:
     name: UBSan
     runs-on: ubuntu-latest

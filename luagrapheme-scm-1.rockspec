@@ -49,17 +49,16 @@ build = {
       LUA_BINDIR = "$(LUA_BINDIR)",
       LUA_INCDIR = "$(LUA_INCDIR)",
       LIBGRAPHEME_DIR = "$(LIBGRAPHEME_DIR)",
-      LIBGRAPHEME_LIBDIR = "$(LIBGRAPHEME_LIBDIR)",
       LIBGRAPHEME_INCDIR = "$(LIBGRAPHEME_INCDIR)",
+      LIBGRAPHEME_LIBDIR = "$(LIBGRAPHEME_LIBDIR)",
    },
    install_variables = {
       CP = "$(CP)",
       MKDIR = "$(MKDIR)",
       RM = "$(RM)",
-      PREFIX = "$(PREFIX)",
-      BINDIR = "$(BINDIR)",
-      LIBDIR = "$(LIBDIR)",
-      LUADIR = "$(LUADIR)",
+      INST_PREFIX = "$(PREFIX)",
+      INST_LIBDIR = "$(LIBDIR)",
+      INST_LUADIR = "$(LUADIR)",
    },
 }
 

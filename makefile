@@ -26,10 +26,10 @@ HDR = \
 all: $(SONAME)
 
 install: all
-	$(MKDIR) -p $(DESTDIR)$(LIBDIR)
-	$(CP) -f $(SONAME) $(DESTDIR)$(LIBDIR)/$(SONAME)
-	$(MKDIR) -p $(DESTDIR)$(LUADIR)/luagrapheme
-	$(CP) -Rf lua_src/. $(DESTDIR)$(LUADIR)/luagrapheme
+	$(MKDIR) -p $(DESTDIR)$(INST_LIBDIR)
+	$(CP) -f $(SONAME) $(DESTDIR)$(INST_LIBDIR)/$(SONAME)
+	$(MKDIR) -p $(DESTDIR)$(INST_LUADIR)/luagrapheme
+	$(CP) -Rf lua_src/. $(DESTDIR)$(INST_LUADIR)/luagrapheme
 
 uninstall:
 	$(RM) -f $(INST_LIBDIR)/$(SONAME)

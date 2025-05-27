@@ -29,7 +29,7 @@ install: all
 	$(MKDIR) -p $(INST_LIBDIR)
 	$(CP) -f $(SONAME) $(INST_LIBDIR)/$(SONAME)
 	$(MKDIR) -p $(INST_LUADIR)/luagrapheme
-	$(CP) -Rf lua_src/ $(INST_LUADIR)/luagrapheme
+	$(CP) -Rf lua_src/. $(INST_LUADIR)/luagrapheme
 
 uninstall:
 	$(RM) -f $(INST_LIBDIR)/$(SONAME)

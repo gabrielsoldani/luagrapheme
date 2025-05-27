@@ -45,6 +45,7 @@ build = {
    },
    build_variables = {
       CC = "$(CC)",
+      LD = "$(LD)",
       CFLAGS_EXTRA = "$(CFLAGS)",
       LDFLAGS_EXTRA = "$(LIBFLAG)",
       LUA_BINDIR = "$(LUA_BINDIR)",
@@ -58,7 +59,7 @@ build = {
       INST_BINDIR = "$(BINDIR)",
       INST_LIBDIR = "$(LIBDIR)",
       INST_LUADIR = "$(LUADIR)",
-   },
+   }
 }
 
 test_dependencies = {

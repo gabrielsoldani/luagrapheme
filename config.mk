@@ -7,8 +7,8 @@ SONAME = luagrapheme.$(SO)
 # Paths
 LUA_VERSION = 5.4
 LUA_DIR = /usr/local
-LUA_BINDIR =  $(LUA_DIR)/bin
-LUA_INCDIR =  $(LUA_DIR)/include
+LUA_BINDIR = $(LUA_DIR)/bin
+LUA_INCDIR = $(LUA_DIR)/include
 
 # libgrapheme paths
 LIBGRAPHEME_DIR = /usr/local
@@ -22,8 +22,8 @@ INST_LIBDIR = $(INST_PREFIX)/lib
 INST_LUADIR = $(INST_PREFIX)/share/lua/$(LUA_VERSION)
 
 # Flags
-CFLAGS =
-LDFLAGS =
+CFLAGS = -O2 -fPIC -Wall -Wextra -Werror
+LDFLAGS = -shared
 BUSTEDFLAGS = -Xoutput "--color"
 
 # Extensions

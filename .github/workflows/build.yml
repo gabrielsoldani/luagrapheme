@@ -42,8 +42,6 @@ jobs:
 
       - name: Setup 'luarocks'
         uses: leafo/gh-actions-luarocks@v5
-        # with:
-        #   luarocksVersion: "3.10.0"
 
       - name: Build 'luagrapheme'
         run: |
@@ -82,8 +80,6 @@ jobs:
 
       - name: Setup 'luarocks'
         uses: leafo/gh-actions-luarocks@v5
-        # with:
-        #   luarocksVersion: "3.10.0"
 
       - name: Install dependencies
         run: |
@@ -112,14 +108,12 @@ jobs:
           sudo make install
 
       - name: Setup 'lua'
-        uses: leafo/gh-actions-lua@v11
+        uses: luarocks/gh-actions-lua@v11
         with:
           luaVersion: 5.1
 
       - name: Setup 'luarocks'
-        uses: leafo/gh-actions-luarocks@v5
-        # with:
-        #   luarocksVersion: "3.10.0"
+        uses: luarocks/gh-actions-luarocks@v6
 
       - name: Build 'luagrapheme'
         run: |

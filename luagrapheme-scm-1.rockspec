@@ -1,6 +1,9 @@
+local package_version = "scm"
+local rockspec_revision = "1"
+
 rockspec_format = "3.0"
 package = "luagrapheme"
-version = "scm-1"
+version = package_version .. "-" .. rockspec_revision
 source = {
    url = "git+https://github.com/gabrielsoldani/luagrapheme.git",
 }
@@ -22,7 +25,7 @@ dependencies = {
 }
 
 external_dependencies = {
-   GRAPHEME = {
+   LIBGRAPHEME = {
       header = "grapheme.h",
       library = "grapheme",
    },
@@ -32,32 +35,39 @@ build_dependencies = {}
 
 build = {
    type = "make",
+   variables = {
+      SO = "$(LIB_EXTENSION)",
+   },
    build_variables = {
-      CFLAGS_EXTRA = "$(CFLAGS)",
-      LDFLAGS_EXTRA = "$(LIBFLAG)",
+      O = "$(OBJ_EXTENSION)",
+      LUAGRAPHEME_VERSION = package_version,
+      CC = "$(CC)",
+      LD = "$(LD)",
+      CFLAGS = "$(CFLAGS)",
+      LDFLAGS = "$(LIBFLAG)",
+      LUA_DIR = "$(LUA_DIR)",
       LUA_BINDIR = "$(LUA_BINDIR)",
       LUA_INCDIR = "$(LUA_INCDIR)",
-      LUA = "$(LUA)",
-      GRAPHEME_LIBDIR = "$(GRAPHEME_LIBDIR)",
-      GRAPHEME_INCDIR = "$(GRAPHEME_INCDIR)",
+      LIBGRAPHEME_DIR = "$(LIBGRAPHEME_DIR)",
+      LIBGRAPHEME_INCDIR = "$(LIBGRAPHEME_INCDIR)",
+      LIBGRAPHEME_LIBDIR = "$(LIBGRAPHEME_LIBDIR)",
    },
    install_variables = {
+      CP = "$(CP)",
+      MKDIR = "$(MKDIR)",
+      RM = "$(RM)",
       INST_PREFIX = "$(PREFIX)",
-      INST_BINDIR = "$(BINDIR)",
       INST_LIBDIR = "$(LIBDIR)",
       INST_LUADIR = "$(LUADIR)",
-      INST_CONFDIR = "$(CONFDIR)",
    },
 }
 
 test_dependencies = {
-   "busted ~> 2.1",
-   "compat53 >= 0.11, < 0.12",
-   "lpeg ~> 1.1",
+   "busted >= 2.1, <= 3.0",
+   "compat53 >= 0.11, <= 1.0",
+   "lpeg >= 1.1, <= 2.0",
 }
 
 test = {
-   type = "command",
-   command = "make",
-   flags = { "test" },
+   type = "busted",
 }

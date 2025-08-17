@@ -8,3 +8,9 @@
 
 # Editor-specific files
 .vscode/
+
+# Luarocks init artifacts
+/luarocks
+/lua
+/lua_modules
+/.luarocks

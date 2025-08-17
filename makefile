@@ -1,67 +1,47 @@
 .POSIX:
 .SUFFIXES:
 
-VERSION_MAJOR = 0
-VERSION_MINOR = 1
-VERSION_PATCH = 0
-
-VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
-
 include config.mk
 
-CFLAGS = \
-	$(CFLAGS_BASE) \
-	-DVERSION_MAJOR=$(VERSION_MAJOR) \
-	-DVERSION_MINOR=$(VERSION_MINOR) \
-	-DVERSION_PATCH=$(VERSION_PATCH) \
-	-DVERSION=\"$(VERSION)\" \
-	-I $(LUA_INCDIR) \
-	-I $(GRAPHEME_INCDIR) \
-	-I vendor/lua-compat-5.3 \
-	$(CFLAGS_EXTRA)
+ALL_CFLAGS = \
+	-DLUAGRAPHEME_VERSION=\"$(LUAGRAPHEME_VERSION)\" \
+	-I$(LUA_INCDIR) \
+	-I$(LIBGRAPHEME_INCDIR) \
+	-Ivendor/lua-compat-5.3 \
+	$(CFLAGS)
 
-LDFLAGS = \
-	-L $(GRAPHEME_LIBDIR) \
-	-l grapheme \
-	$(LDFLAGS_EXTRA)
+ALL_LDFLAGS = \
+	-L$(LIBGRAPHEME_LIBDIR) \
+	-lgrapheme \
+	$(LDFLAGS)
 
 SRC = \
-	src/case.c \
-	src/count_segments.c \
-	src/is_segment_break.c \
-	src/match_n_segments.c \
-	src/match_one_of_graphemes.c \
-	src/reverse.c \
-	src/segment_breaks.c \
-	src/segments.c \
-	src/sub.c \
-	src/luagrapheme.c
+	c_src/case.c \
+	c_src/luagrapheme.c \
+	c_src/segments.c
 
 HDR = \
-	src/luagrapheme.h
-
-LUASRC = \
-	src/lpeg_ext.lua
-
+	c_src/luagrapheme.h
 
 all: $(SONAME)
 
-install: $(SONAME) $(LUASRC)
-	mkdir -p $(INST_LIBDIR)
-	cp -f $(SONAME) $(INST_LIBDIR)/$(SONAME)
-	mkdir -p $(INST_LUADIR)/luagrapheme
-	for file in $(LUASRC); do \
-		mkdir -p $(INST_LUADIR)/luagrapheme/$$(dirname $${file#src/}); \
-		cp -f $$file $(INST_LUADIR)/luagrapheme/$${file#src/}; \
-	done
+install: all
+	$(MKDIR) -p $(DESTDIR)$(INST_LIBDIR)
+	$(CP) -f $(SONAME) $(DESTDIR)$(INST_LIBDIR)/$(SONAME)
+	$(MKDIR) -p $(DESTDIR)$(INST_LUADIR)/luagrapheme
+	$(CP) -Rf lua_src/. $(DESTDIR)$(INST_LUADIR)/luagrapheme
+
+uninstall:
+	$(RM) -f $(INST_LIBDIR)/$(SONAME)
+	$(RM) -rf $(INST_LUADIR)/luagrapheme
 
 clean:
-	$(RM) -f $(ANAME) $(SONAME) $(SRC:.c=.o)
+	$(RM) -f $(SONAME) $(SRC:.c=.$(O))
 
 format: format-stylua format-clang-format
 
 format-stylua:
-	stylua spec/ *.rockspec
+	$(STYLUA) .
 
 format-clang-format:
 	$(CLANG_FORMAT) -i $(SRC) $(HDR)
@@ -72,7 +52,7 @@ lint-luacheck:
 	$(LUACHECK) .
 
 lint-stylua:
-	$(STYLUA) --check spec/ *.rockspec
+	$(STYLUA) --check .
 
 lint-clang-format:
 	$(CLANG_FORMAT) --dry-run -Werror $(SRC) $(HDR)
@@ -80,21 +60,14 @@ lint-clang-format:
 test:
 	$(BUSTED) $(BUSTEDFLAGS)
 
-$(SONAME): $(SRC:.c=.o)
-	$(CC) -o $@ $(SRC:.c=.o) $(LDFLAGS)
+$(SONAME): $(SRC:.c=.$(O))
+	$(LD) -o $@ $(SRC:.c=.$(O)) $(ALL_LDFLAGS)
 
-src/case.o: src/case.c src/luagrapheme.h makefile config.mk
-src/is_segment_break.o: src/is_segment_break.c src/luagrapheme.h src/utf8.h makefile config.mk
-src/count_segments.o: src/count_segments.c src/luagrapheme.h makefile config.mk
-src/match_n_segments.o: src/match_n_segments.c src/luagrapheme.h src/utf8.h makefile config.mk
-src/match_oneof_graphemes.o: src/match_oneof_graphemes.c src/luagrapheme.h src/utf8.h makefile config.mk
-src/reverse.o: src/reverse.c src/luagrapheme.h makefile config.mk
-src/segment_breaks.o: src/segment_breaks.c src/luagrapheme.h makefile config.mk
-src/segments.o: src/segments.c src/luagrapheme.h makefile config.mk
-src/sub.o: src/sub.c src/luagrapheme.h makefile config.mk
-src/luagrapheme.o: src/luagrapheme.c src/luagrapheme.h makefile config.mk
+c_src/case.$(O): c_src/case.c c_src/luagrapheme.h makefile config.mk
+c_src/luagrapheme.$(O): c_src/luagrapheme.c c_src/luagrapheme.h makefile config.mk
+c_src/segments.$(O): c_src/segments.c c_src/luagrapheme.h makefile config.mk
 
-$(SRC:.c=.o):
-	$(CC) -c -o $@ $(CFLAGS) $(@:.o=.c)
+$(SRC:.c=.$(O)):
+	$(CC) -c -o $@ $(ALL_CFLAGS) $(@:.$(O)=.c)
 
-.PHONY: all install clean format format-stylua format-clang-format lint lint-luacheck lint-stylua lint-clang-format test
+.PHONY: all install uninstall clean format format-stylua format-clang-format lint lint-luacheck lint-stylua lint-clang-format test

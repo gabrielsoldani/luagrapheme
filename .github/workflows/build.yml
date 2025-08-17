@@ -36,22 +36,33 @@ jobs:
           sudo make install
 
       - name: Setup 'lua'
-        uses: leafo/gh-actions-lua@v11
+        uses: luarocks/gh-actions-lua@v11
         with:
           luaVersion: ${{ matrix.lua_version }}
 
       - name: Setup 'luarocks'
-        uses: leafo/gh-actions-luarocks@v5
+        uses: luarocks/gh-actions-luarocks@v6
 
       - name: Build 'luagrapheme'
-        run: luarocks make
+        run: |
+          luarocks
+          luarocks make --verbose
 
       - name: Test 'luagrapheme'
         run: luarocks test
 
-  ubsan:
-    name: UBSan
-    runs-on: ubuntu-latest
+  make:
+    name: Build with make
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+        lua_version:
+          - "5.1"
+          - "5.4"
+
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,18 +75,54 @@ jobs:
           sudo make install
 
       - name: Setup 'lua'
-        uses: leafo/gh-actions-lua@v11
+        uses: luarocks/gh-actions-lua@v11
+        with:
+          luaVersion: ${{ matrix.lua_version }}
+
+      - name: Setup 'luarocks'
+        uses: luarocks/gh-actions-luarocks@v6
+
+      - name: Install dependencies
+        run: |
+          luarocks install compat53
+          luarocks install busted
+          luarocks install lpeg
+
+      - name: Build 'luagrapheme'
+        run: |
+          make LUA_DIR="$(pwd)/.lua" all && \
+            sudo make LUA_VERSION="${{ matrix.lua_version }}" install
+
+      - name: Test 'luagrapheme'
+        run: make test
+
+  ubsan:
+    name: UBSan
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup 'libgrapheme'
+        run: |
+          git clone https://git.suckless.org/libgrapheme
+          cd libgrapheme
+          ./configure
+          sudo make install
+
+      - name: Setup 'lua'
+        uses: luarocks/gh-actions-lua@v11
         with:
           luaVersion: 5.1
 
       - name: Setup 'luarocks'
-        uses: leafo/gh-actions-luarocks@v5
+        uses: luarocks/gh-actions-luarocks@v6
 
       - name: Build 'luagrapheme'
-        run: >
-          luarocks make
-          CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
-          LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
+        run: |
+          luarocks make --verbose \
+            CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined" \
+            LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
 
       - name: Test 'luagrapheme'
         run: luarocks test

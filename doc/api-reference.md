@@ -36,28 +36,27 @@ Shorthand for [`graphemes.iter(s, start)`](#luagrapheme.graphemes.iter).
 
 ### <a name="luagrapheme.graphemes.index_after">`graphemes.index_after(s, start)`</a>
 
-Returns the index of the first [grapheme cluster] after the given position in the string.
+Returns the index of the first [grapheme cluster] strictly after the given index in the string.
 
 #### Parameters
 
 - `s` (`string`): The string to search in.
-- `start` (`integer`, optional): The starting position in `s`. Defaults to `1`.
+- `start` (`integer`, optional): The starting index in `s`. Must satisfy `start >= 1` and `start <= #s + 1`. Defaults to `1`.
 
 #### Returns
 
-An integer representing the starting index of the first grapheme after `start`. If there are no more grapheme clusters, returns `nil`.
+An integer representing the index of the first grapheme cluster strictly after `start`. Returns `#s + 1` if the end of the string is reached. If `start` is exactly `#s + 1`, returns `nil`.
 
 #### Example
 
 ```lua
-local luagrapheme = require("luagrapheme")
-local graphemes = luagrapheme.graphemes
+graphemes = require("luagrapheme").graphemes
 
-local text = "Hello, 世界"
-local start = 8
-local next_index = graphemes.index_after(text, start)
+text = "Hello, 世界"
+start = 8    --^
+next_index = graphemes.index_after(text, start)
 print(next_index)
---> 10
+--> 11
 print(text:sub(start, next_index - 1))
 --> 世
 ```
@@ -69,7 +68,7 @@ Creates an iterator that returns the start and end indices of each [grapheme clu
 #### Parameters
 
 - `s` (`string`): The string to iterate over.
-- `start` (`integer`, optional): The starting position in `s`. Defaults to `1`.
+- `start` (`integer`, optional): The starting index in `s`. Defaults to `1`.
 
 #### Returns
 
@@ -78,11 +77,10 @@ An iterator function, suitable for use in [_generic for statements_][generic-for
 #### Example
 
 ```lua
-local luagrapheme = require("luagrapheme")
-local graphemes = luagrapheme.graphemes
+graphemes = require("luagrapheme").graphemes
 
-local text = "Hello, 世界"
-local t = {}
+text = "Hello, 世界"
+t = {}
 for i, j in graphemes.iter(text) do
    t[#t + 1] = text:sub(i, j)
 end
@@ -97,20 +95,63 @@ Shorthand for [`lines.iter(s, start)`](#luagrapheme.lines.iter).
 
 ### <a name="luagrapheme.lines.index_after">`lines.index_after(s, start)`</a>
 
-Returns the index of the first [line-break opportunity] after the given position in the string.
+Returns the index of the first [line break opportunity] strictly after the given index in the string.
 
 #### Parameters
 
 - `s` (`string`): The string to search in.
-- `start` (`integer`, optional): The starting position in `s`. Defaults to `1`.
+- `start` (`integer`, optional): The starting position in `s`. Must satisfy `start >= 1` and `start <= #s + 1`. Defaults to `1`.
+
+#### Example
+
+```lua
+lines = require("luagrapheme").lines
+
+text = "Time-keeping began on 1970-01-01."
+
+a = lines.index_after(text, 1)
+print(a, string.format("%q", text:sub(1, a - 1)))
+--> 6       "Time-"
+b = lines.index_after(text, a)
+print(b, string.format("%q", text:sub(a, b - 1)))
+--> 12      "keeping "
+c = lines.index_after(text, b)
+print(c, string.format("%q", text:sub(b, c - 1)))
+--> 20      "began "
+d = lines.index_after(text, c)
+print(d, string.format("%q", text:sub(c, d - 1)))
+--> 23      "on "
+e = lines.index_after(text, d)
+print(e, string.format("%q", text:sub(d, e - 1)))
+--> 34      "1970-01-01."
+```
+
+#### Example
+
+```lua
+lines = require("luagrapheme").lines
+
+print(lines.index_after("a\r\nb\n", 1))
+--> 4
+print(lines.index_after("a\r\nb\n", 2))
+--> 4
+print(lines.index_after("a\r\nb\n", 3))
+--> 4
+print(lines.index_after("a\r\nb\n", 4))
+--> 6
+print(lines.index_after("a\r\nb\n", 5))
+--> 6
+print(lines.index_after("a\r\nb\n", 6))
+--> nil
+```
 
 #### Returns
 
-An integer representing the starting index of the first line-break opportunity after `start`. If there are no more line break opportunities, returns `nil`.
+An integer representing the index of the first line break opportunity strictly after `start`. Returns `#s + 1` if the end of the string is reached. If `start` is exactly `#s + 1`, returns `nil`.
 
 ### <a name="luagrapheme.lines.iter">`lines.iter(s, start)`</a>
 
-Creates an iterator that returns the start and end indices of each [line-break opportunity] in the given string on each iteration.
+Creates an iterator that returns the start and end indices of each [line break opportunity] in the given string on each iteration.
 
 #### Parameters
 
@@ -121,22 +162,51 @@ Creates an iterator that returns the start and end indices of each [line-break o
 
 An iterator function, suitable for use in [_generic for statements_][generic-for-statements].
 
+#### Example
+
+```lua
+lines = require("luagrapheme").lines
+
+text = "Lua\u{00a0}5.4 was released in 2020-06-29, adding " ..
+  "to-be-closed variables (see §\u{202f}3.3.8)"
+for i, j in lines.iter(text) do
+   print(text:sub(i, j) .. "⏎")
+end
+```
+
+Output:
+
+```
+Lua 5.4 ⏎
+was ⏎
+released ⏎
+in ⏎
+2020-06-29, ⏎
+adding ⏎
+to-⏎
+be-⏎
+closed ⏎
+variables ⏎
+(see ⏎
+§ 3.3.8)⏎
+```
+
 ### <a name="luagrapheme.sentences">`sentences(s, start)`</a>
 
 Shorthand for `sentences.iter(s, start)`.
 
 ### <a name="luagrapheme.sentences.index_after">`sentences.index_after(s, start)`</a>
 
-Returns the index of the first [sentence] after the given position in the string.
+Returns the index of the first [sentence break][sentence] strictly after the given index in the string.
 
 #### Parameters
 
 - `s` (`string`): The string to search in.
-- `start` (`integer`, optional): The starting position in `s`. Defaults to `1`.
+- `start` (`integer`, optional): The starting position in `s`. Must satisfy `start >= 1` and `start <= #s + 1`. Defaults to `1` .
 
 #### Returns
 
-An integer representing the starting index of the first sentence after `start`. If there are no more sentences, returns `nil`.
+An integer representing the index of the first sentence break strictly after `start`. Returns `#s + 1` if the end of the string is reached. If `start` is exactly `#s + 1`, returns `nil`.
 
 ### <a name="luagrapheme.sentences.iter">`sentences.iter(s, start)`</a>
 
@@ -157,16 +227,16 @@ Shorthand for [`words.iter(s, start)`](#luagrapheme.words.iter).
 
 ### <a name="luagrapheme.words.index_after">`words.index_after(s, start)`</a>
 
-Returns the index of the first [word] after the given position in the string.
+Returns the index of the first [word break][word] strictly after the given index in the string.
 
 #### Parameters
 
 - `s` (`string`): The string to search in.
-- `start` (`integer`, optional): The starting position in `s`. Defaults to `1`.
+- `start` (`integer`, optional): The starting index in `s`. Must satisfy `start >= 1` and `start <= #s + 1`. Defaults to `1`.
 
 #### Returns
 
-An integer representing the starting index of the first word after `start`. If there are no more words, returns `nil`.
+An integer representing the index of the first word break strictly after `start`. Returns `#s + 1` if the end of the string is reached. If `start` is exactly `#s + 1`, returns `nil`.
 
 ### <a name="luagrapheme.words.iter">`words.iter(s, start)`</a>
 
@@ -191,13 +261,12 @@ Converts the given string to uppercase.
 
 #### Returns
 
-A new string with all graphemes in `s` converted to uppercase.
+A new string with all grapheme clusters in `s` converted to uppercase.
 
 #### Example
 
 ```lua
-local luagrapheme = require("luagrapheme")
-local input = "HeLLo, мИр!"
+input = "HeLLo, мИр!"
 
 -- Using Lua's built-in string.upper yields incorrect results for
 -- non-ASCII grapheme clusters.
@@ -219,13 +288,12 @@ Converts the given string to lowercase.
 
 #### Returns
 
-A new string with all graphemes in `s` converted to lowercase.
+A new string with all grapheme clusters in `s` converted to lowercase.
 
 #### Example
 
 ```lua
-local luagrapheme = require("luagrapheme")
-local input = "HeLLo, мИр!"
+input = "HeLLo, мИр!"
 
 -- Using Lua's built-in string.lower yields incorrect results for
 -- non-ASCII grapheme clusters.
@@ -252,8 +320,7 @@ A new string with the first grapheme cluster of each word in `s` converted to up
 #### Example
 
 ```lua
-local luagrapheme = require("luagrapheme")
-local input = "HeLLo, мИр!"
+input = "HeLLo, мИр!"
 
 -- Using Lua's built-in string.upper and string.lower yields incorrect
 -- results for non-ASCII grapheme clusters.
@@ -285,7 +352,7 @@ A pattern that matches exactly 1 [grapheme cluster].
 
 #### Returns
 
-A pattern that matches exactly 1 [line-break opportunity].
+A pattern that matches exactly 1 [line break opportunity].
 
 ### <a name="luagrapheme.lpeg.S">`S()`</a>
 
@@ -304,6 +371,6 @@ A pattern that matches exactly 1 [word].
 The current version of the `luagrapheme.lpeg` module.
 
 [grapheme cluster]: concepts.md#grapheme-cluster
-[line-break opportunity]: concepts.md#line-break-opportunity
+[line break opportunity]: concepts.md#line-break-opportunity
 [sentence]: concepts.md#sentence
 [word]: concepts.md#word

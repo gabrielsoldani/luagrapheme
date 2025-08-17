@@ -49,8 +49,6 @@ The simplest case is the ordinary space character. The algorithm allows a break 
 
 Hyphens behave differently depending on context. When digits surround a hyphen, as in a date, the algorithm treats the sequence as numeric and forbids breaking inside it. In contrast, an alphabetic hyphen permits a break.
 
-Hyphens behave differently depending on context. When digits surround a hyphen, as in a date, the algorithm treats the sequence as numeric and forbids breaking inside it. In contrast, an alphabetic hyphen permits a break.
-
 > **Example**: The string `"On 2020-06-29 a well-known story began"` is segmented into `"On "`, `"2020-06-29 "`, `"a "`, `"well-"`, `"known "`, `"story "`, and `"began"`. The date stays intact, while `"well-known"` may break after the hyphen.
 
 Some characters have alternative code points that disallow breaks. A common case is the non-breaking space (U+00A0), which looks like an ordinary space but never permits a line break.

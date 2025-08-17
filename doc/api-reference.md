@@ -53,7 +53,7 @@ An integer representing the index of the first grapheme cluster strictly after `
 graphemes = require("luagrapheme").graphemes
 
 text = "Hello, 世界"
-start = 8
+start = 8    --^
 next_index = graphemes.index_after(text, start)
 print(next_index)
 --> 11
@@ -113,16 +113,16 @@ a = lines.index_after(text, 1)
 print(a, string.format("%q", text:sub(1, a - 1)))
 --> 6       "Time-"
 b = lines.index_after(text, a)
-print(j, string.format("%q", text:sub(a, b - 1)))
+print(b, string.format("%q", text:sub(a, b - 1)))
 --> 12      "keeping "
 c = lines.index_after(text, b)
-print(k, string.format("%q", text:sub(b, c - 1)))
+print(c, string.format("%q", text:sub(b, c - 1)))
 --> 20      "began "
 d = lines.index_after(text, c)
-print(x, string.format("%q", text:sub(c, d - 1)))
+print(d, string.format("%q", text:sub(c, d - 1)))
 --> 23      "on "
 e = lines.index_after(text, d)
-print(y, string.format("%q", text:sub(d, e - 1)))
+print(e, string.format("%q", text:sub(d, e - 1)))
 --> 34      "1970-01-01."
 ```
 
@@ -140,6 +140,8 @@ print(lines.index_after("a\r\nb\n", 3))
 print(lines.index_after("a\r\nb\n", 4))
 --> 6
 print(lines.index_after("a\r\nb\n", 5))
+--> 6
+print(lines.index_after("a\r\nb\n", 6))
 --> nil
 ```
 

@@ -12,16 +12,20 @@ static inline int segments_index_after(lua_State *L, next_segment_break_fn next_
 
     // Retrieve the current index
     const lua_Integer index = luaL_checkinteger(L, 2);
-    luaL_argcheck(L, index >= 1 && (size_t)index <= len, 2, "index out of range");
+    luaL_argcheck(L, index >= 1, 2, "index out of range");
 
-    // If the index is the end of the string, return nil
-    if ((size_t)index == len) {
+    // Calculate the 0-based offset of the current index
+    size_t offset = (size_t)index - 1;
+
+    // Check that it's within the bounds of the string, allowing the
+    // "sentinel" offset at the end of the string
+    luaL_argcheck(L, offset <= len, 2, "index out of range");
+
+    // If the offset is at the end of the string, return nil
+    if (offset == len) {
         lua_pushnil(L);
         return 1;
     }
-
-    // Otherwise, calculate the 0-based offset of the current index
-    const size_t offset = (size_t)(index - 1);
 
     // Find the next segment break
     const size_t inc = next_segment_break(str + offset, len - offset);

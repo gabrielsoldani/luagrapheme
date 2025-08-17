@@ -2,14 +2,14 @@
 
 ## <a name="grapheme-cluster">Grapheme cluster</a>
 
-A _grapheme cluster_ (as the Unicode standards calls it) represents a unit of text that is perceived by the user as a single entity. It is what the user normally  conceives as a "character" (for example, when counting or advancing cursor positions).
+A _grapheme cluster_ (as the Unicode standards calls it) represents a unit of text that is perceived by the user as a single entity. It is what the user normally conceives as a "character" (for example, when counting or advancing cursor positions).
 
 > **Example**: The word "Lua" consists of 3 grapheme clusters: "L", "u", and "a". Each is composed of a single code point: U+004C (LATIN CAPITAL LETTER L), U+0075 (LATIN SMALL LETTER U), and U+0061 (LATIN SMALL LETTER A), respectively.
 
 A grapheme cluster may be a single code point, or it may be a sequence of code points that are rendered as a single unit.
 
 > **Example**: The emoji "👩‍🚀" (WOMAN ASTRONAUT) is a single grapheme cluster that is composed of multiple code points, "👩" (U+1F469 - WOMAN), "ZWJ" (U+200D - ZERO WIDTH JOINER
-and "🚀" (U+1F680 - ROCKET).
+> and "🚀" (U+1F680 - ROCKET).
 
 The converse is not true, however. Not all sequences of code points that are rendered as a single unit are grapheme clusters.
 
@@ -41,7 +41,31 @@ The term "character" is explicitly avoided in these definitions to prevent ambig
 
 ## <a name="line-break-opportunity">Line break opportunity</a>
 
-...
+A _line break opportunity_ is a position in text where a renderer is permitted to wrap onto a new line. The [Unicode Line Breaking Algorithm (UAX #14)][uax-14] defines these opportunities based on character classes and context.
+
+The simplest case is the ordinary space character. The algorithm allows a break after a space, so two words separated by a space will be returned as two segments.
+
+> **Example**: The string `"Hello world"` is segmented into `"Hello "` and `"world"`.
+
+Hyphens behave differently depending on context. When digits surround a hyphen, as in a date, the algorithm treats the sequence as numeric and forbids breaking inside it. In contrast, an alphabetic hyphen permits a break.
+
+Hyphens behave differently depending on context. When digits surround a hyphen, as in a date, the algorithm treats the sequence as numeric and forbids breaking inside it. In contrast, an alphabetic hyphen permits a break.
+
+> **Example**: The string `"On 2020-06-29 a well-known story began"` is segmented into `"On "`, `"2020-06-29 "`, `"a "`, `"well-"`, `"known "`, `"story "`, and `"began"`. The date stays intact, while `"well-known"` may break after the hyphen.
+
+Some characters have alternative code points that disallow breaks. A common case is the non-breaking space (U+00A0), which looks like an ordinary space but never permits a line break.
+
+> **Example**: The string `"Lua␣5.4 released"` (`␣` = U+00A0 NO-BREAK SPACE) is segmented into `"Lua␣5.4 "` and `"released"`. The word “Lua” and its version number cannot be split apart. (We've highlighted the non-breaking space with a visible character for clarity.)
+
+Some characters always force a break. The newline (U+000A) is a mandatory break, splitting the text into separate lines.
+
+> **Example**: The string `"First␣line⏎Second␣line"` (⏎ = U+000A LINE FEED) is segmented into `"First␣"`, `"line⏎"`, `"Second␣"`, and `"line"`.
+
+For characters that don’t have a dedicated non-breaking alternative, the WORD JOINER (U+2060) can be used. It is an invisible character that blocks breaks on either side. A common use is with the em dash, where otherwise a break might occur before or after the dash.
+
+> **Example**: The string `"Alice⁠⁀—⁀⁠Bob"` (`⁀` = U+2060 WORD JOINER) is segmented into `"Alice⁠—⁠Bob"`. The EM DASH (U+2014) cannot be separated from the surrounding text, so “Alice—Bob” always stays on the same line. (We've highlighted the word joiner with a visible character for clarity.)
+
+[uax-14]: https://www.unicode.org/reports/tr14/
 
 ## <a name="sentence">Sentence</a>
 

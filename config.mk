@@ -5,7 +5,6 @@ LUAGRAPHEME_VERSION = scm
 SONAME = luagrapheme.$(SO)
 
 # Paths
-LUA_VERSION = 5.4
 LUA_DIR = /usr/local
 LUA_BINDIR = $(LUA_DIR)/bin
 LUA_INCDIR = $(LUA_DIR)/include
@@ -16,6 +15,7 @@ LIBGRAPHEME_LIBDIR = $(LIBGRAPHEME_DIR)/lib
 LIBGRAPHEME_INCDIR = $(LIBGRAPHEME_DIR)/include
 
 # Install paths
+LUA_VERSION = 5.4
 DESTDIR =
 INST_PREFIX = /usr/local
 INST_LIBDIR = $(INST_PREFIX)/lib

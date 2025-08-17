@@ -89,7 +89,9 @@ jobs:
           luarocks install lpeg
 
       - name: Build 'luagrapheme'
-        run: make LUA_DIR=$(pwd)/.lua && sudo make LUA_DIR=$(pwd)/.lua install
+        run: |
+          make LUA_DIR="$(pwd)/.lua" all && \
+            sudo make LUA_VERSION="${{ matrix.lua_version }}" install
 
       - name: Test 'luagrapheme'
         run: make test

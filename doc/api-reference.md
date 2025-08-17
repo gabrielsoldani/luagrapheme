@@ -1,6 +1,6 @@
 # API Reference
 
-## Table of Contents
+## <a name="toc">Table of Contents</a>
 
 - [`luagrapheme` Module](#luagrapheme)
   - [`graphemes(s, start)`](#luagrapheme.graphemes)
@@ -28,15 +28,15 @@
 
 ---
 
-## <a name="luagrapheme">`luagrapheme` Module
+## <a name="luagrapheme">`luagrapheme` Module</a>
 
-### <a name="luagrapheme.graphemes"></a>`graphemes(s, start)`
+### <a name="luagrapheme.graphemes">`graphemes(s, start)`</a>
 
 Shorthand for [`graphemes.iter(s, start)`](#luagrapheme.graphemes.iter).
 
-### <a name="luagrapheme.graphemes.index_after"></a>`graphemes.index_after(s, start)`
+### <a name="luagrapheme.graphemes.index_after">`graphemes.index_after(s, start)`</a>
 
-Returns the index of the first [grapheme] after the given position in the string.
+Returns the index of the first [grapheme cluster] after the given position in the string.
 
 #### Parameters
 
@@ -45,8 +45,7 @@ Returns the index of the first [grapheme] after the given position in the string
 
 #### Returns
 
-An integer representing the starting index of the first grapheme after `start`.
-If there are no more graphemes, returns `nil`.
+An integer representing the starting index of the first grapheme after `start`. If there are no more grapheme clusters, returns `nil`.
 
 #### Example
 
@@ -63,10 +62,9 @@ print(text:sub(start, next_index - 1))
 --> 世
 ```
 
-### <a name="luagrapheme.graphemes.iter"></a>`graphemes.iter(s, start)`
+### <a name="luagrapheme.graphemes.iter">`graphemes.iter(s, start)`</a>
 
-Creates an iterator that returns the start and end indices of each [grapheme] in
-the given string on each iteration.
+Creates an iterator that returns the start and end indices of each [grapheme cluster] in the given string on each iteration.
 
 #### Parameters
 
@@ -93,13 +91,13 @@ print(table.concat(t, "|"))
 --> H|e|l|l|o|,| |世|界
 ```
 
-### <a name="luagrapheme.lines"></a>`lines(s, start)`
+### <a name="luagrapheme.lines">`lines(s, start)`</a>
 
 Shorthand for [`lines.iter(s, start)`](#luagrapheme.lines.iter).
 
-### <a name="luagrapheme.lines.index_after"></a>`lines.index_after(s, start)`
+### <a name="luagrapheme.lines.index_after">`lines.index_after(s, start)`</a>
 
-Returns the index of the first [line] after the given position in the string.
+Returns the index of the first [line-break opportunity] after the given position in the string.
 
 #### Parameters
 
@@ -108,13 +106,11 @@ Returns the index of the first [line] after the given position in the string.
 
 #### Returns
 
-An integer representing the starting index of the first line after `start`. If
-there are no more lines, returns `nil`.
+An integer representing the starting index of the first line-break opportunity after `start`. If there are no more line break opportunities, returns `nil`.
 
-### <a name="luagrapheme.lines.iter"></a>`lines.iter(s, start)`
+### <a name="luagrapheme.lines.iter">`lines.iter(s, start)`</a>
 
-Creates an iterator that returns the start and end indices of each [line] in the
-given string on each iteration.
+Creates an iterator that returns the start and end indices of each [line-break opportunity] in the given string on each iteration.
 
 #### Parameters
 
@@ -125,11 +121,11 @@ given string on each iteration.
 
 An iterator function, suitable for use in [_generic for statements_][generic-for-statements].
 
-### <a name="luagrapheme.sentences"></a>`sentences(s, start)`
+### <a name="luagrapheme.sentences">`sentences(s, start)`</a>
 
 Shorthand for `sentences.iter(s, start)`.
 
-### <a name="luagrapheme.sentences.index_after"></a>`sentences.index_after(s, start)`
+### <a name="luagrapheme.sentences.index_after">`sentences.index_after(s, start)`</a>
 
 Returns the index of the first [sentence] after the given position in the string.
 
@@ -140,13 +136,11 @@ Returns the index of the first [sentence] after the given position in the string
 
 #### Returns
 
-An integer representing the starting index of the first sentence after `start`.
-If there are no more sentences, returns `nil`.
+An integer representing the starting index of the first sentence after `start`. If there are no more sentences, returns `nil`.
 
-### <a name="luagrapheme.sentences.iter"></a>`sentences.iter(s, start)`
+### <a name="luagrapheme.sentences.iter">`sentences.iter(s, start)`</a>
 
-Creates an iterator that returns the start and end indices of each [sentence] in
-the given string on each iteration.
+Creates an iterator that returns the start and end indices of each [sentence] in the given string on each iteration.
 
 #### Parameters
 
@@ -157,11 +151,11 @@ the given string on each iteration.
 
 An iterator function, suitable for use in [_generic for statements_][generic-for-statements].
 
-### <a name="luagrapheme.words"></a>`words(s, start)`
+### <a name="luagrapheme.words">`words(s, start)`</a>
 
 Shorthand for [`words.iter(s, start)`](#luagrapheme.words.iter).
 
-### <a name="luagrapheme.words.index_after"></a>`words.index_after(s, start)`
+### <a name="luagrapheme.words.index_after">`words.index_after(s, start)`</a>
 
 Returns the index of the first [word] after the given position in the string.
 
@@ -172,13 +166,11 @@ Returns the index of the first [word] after the given position in the string.
 
 #### Returns
 
-An integer representing the starting index of the first word after `start`. If
-there are no more words, returns `nil`.
+An integer representing the starting index of the first word after `start`. If there are no more words, returns `nil`.
 
-### <a name="luagrapheme.words.iter"></a>`words.iter(s, start)`
+### <a name="luagrapheme.words.iter">`words.iter(s, start)`</a>
 
-Creates an iterator that returns the start and end indices of each [word] in the
-given string on each iteration.
+Creates an iterator that returns the start and end indices of each [word] in the given string on each iteration.
 
 #### Parameters
 
@@ -189,7 +181,7 @@ given string on each iteration.
 
 An iterator function, suitable for use in [_generic for statements_][generic-for-statements].
 
-### <a name="luagrapheme.upper"></a>`upper(s)`
+### <a name="luagrapheme.upper">`upper(s)`</a>
 
 Converts the given string to uppercase.
 
@@ -208,7 +200,7 @@ local luagrapheme = require("luagrapheme")
 local input = "HeLLo, мИр!"
 
 -- Using Lua's built-in string.upper yields incorrect results for
--- non-ASCII graphemes.
+-- non-ASCII grapheme clusters.
 print(string.upper(input))
 --> HELLO, мИр!
 
@@ -217,7 +209,7 @@ print(luagrapheme.upper(input))
 --> HELLO, МИР!
 ```
 
-### <a name="luagrapheme.lower"></a>`lower(s)`
+### <a name="luagrapheme.lower">`lower(s)`</a>
 
 Converts the given string to lowercase.
 
@@ -245,7 +237,7 @@ print(luagrapheme.lower(input))
 --> hello, мир!
 ```
 
-### <a name="luagrapheme.title"></a>`title(s)`
+### <a name="luagrapheme.title">`title(s)`</a>
 
 Converts the given string to title case.
 
@@ -255,8 +247,7 @@ Converts the given string to title case.
 
 #### Returns
 
-A new string with the first grapheme of each word in `s` converted to uppercase
-and the rest of the graphemes in each word converted to lowercase.
+A new string with the first grapheme cluster of each word in `s` converted to uppercase and the rest converted to lowercase.
 
 #### Example
 
@@ -265,7 +256,7 @@ local luagrapheme = require("luagrapheme")
 local input = "HeLLo, мИр!"
 
 -- Using Lua's built-in string.upper and string.lower yields incorrect
--- results for non-ASCII graphemes.
+-- results for non-ASCII grapheme clusters.
 print(string.gsub(input, "(%a)(%w*)", function(first, rest)
     return first:upper() .. rest:lower()
 end))
@@ -276,43 +267,43 @@ print(luagrapheme.title(input))
 --> Hello, Мир!
 ```
 
-### <a name="luagrapheme._VERSION"></a>`_VERSION`
+### <a name="luagrapheme._VERSION">`_VERSION`</a>
 
 The current version of the `luagrapheme` module.
 
 [generic-for-statements]: https://www.lua.org/manual/5.1/manual.html#2.4.5
 
-## <a name="luagrapheme.lpeg"></a>`luagrapheme.lpeg` Module
+## <a name="luagrapheme.lpeg">`luagrapheme.lpeg` Module</a>
 
-### <a name="luagrapheme.lpeg.G"></a>`G()`
-
-#### Returns
-
-A pattern that matches exactly 1 [grapheme].
-
-### <a name="luagrapheme.lpeg.L"></a>`L()`
+### <a name="luagrapheme.lpeg.G">`G()`</a>
 
 #### Returns
 
-A pattern that matches exactly 1 [line].
+A pattern that matches exactly 1 [grapheme cluster].
 
-### <a name="luagrapheme.lpeg.S"></a>`S()`
+### <a name="luagrapheme.lpeg.L">`L()`</a>
+
+#### Returns
+
+A pattern that matches exactly 1 [line-break opportunity].
+
+### <a name="luagrapheme.lpeg.S">`S()`</a>
 
 #### Returns
 
 A pattern that matches exactly 1 [sentence].
 
-### <a name="luagrapheme.lpeg.W"></a>`W()`
+### <a name="luagrapheme.lpeg.W">`W()`</a>
 
 #### Returns
 
 A pattern that matches exactly 1 [word].
 
-### <a name="luagrapheme.lpeg._VERSION"></a>`_VERSION`
+### <a name="luagrapheme.lpeg._VERSION">`_VERSION`</a>
 
 The current version of the `luagrapheme.lpeg` module.
 
-[grapheme]: concepts.md#Grapheme
-[line]: concepts.md#Line
-[sentence]: concepts.md#Sentence
-[word]: concepts.md#Word
+[grapheme cluster]: concepts.md#grapheme-cluster
+[line-break opportunity]: concepts.md#line-break-opportunity
+[sentence]: concepts.md#sentence
+[word]: concepts.md#word

@@ -36,12 +36,12 @@ jobs:
           sudo make install
 
       - name: Setup 'lua'
-        uses: leafo/gh-actions-lua@v11
+        uses: luarocks/gh-actions-lua@v11
         with:
           luaVersion: ${{ matrix.lua_version }}
 
       - name: Setup 'luarocks'
-        uses: leafo/gh-actions-luarocks@v5
+        uses: luarocks/gh-actions-luarocks@v6
 
       - name: Build 'luagrapheme'
         run: |
@@ -74,12 +74,12 @@ jobs:
           sudo make install
 
       - name: Setup 'lua'
-        uses: leafo/gh-actions-lua@v11
+        uses: luarocks/gh-actions-lua@v11
         with:
           luaVersion: ${{ matrix.lua_version }}
 
       - name: Setup 'luarocks'
-        uses: leafo/gh-actions-luarocks@v5
+        uses: luarocks/gh-actions-luarocks@v6
 
       - name: Install dependencies
         run: |

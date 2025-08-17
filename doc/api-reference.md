@@ -228,7 +228,7 @@ local luagrapheme = require("luagrapheme")
 local input = "HeLLo, мИр!"
 
 -- Using Lua's built-in string.lower yields incorrect results for
--- non-ASCII graphemes.
+-- non-ASCII grapheme clusters.
 print(string.lower(input))
 --> hello, ���!
 

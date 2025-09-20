@@ -1,0 +1,13 @@
+Olá!
+
+
+
+👩‍🚀 Este é um item de lista;
+✅ e este é outro item de lista.
+
+✅ Este faz parte de uma lista diferente.
+
+Isso é um parágrafo.
+Um parágrafo pode ser composto por múltiplas linhas.
+
+Uma quebra dupla de linha inicia um novo parágrafo.

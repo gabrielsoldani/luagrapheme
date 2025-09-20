@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <style>
+    li[data-bullet]::marker { content: attr(data-bullet) '\a0'; }
+  </style>
+</head>
+<body>
+<p>
+  Hello!
+</p>
+<ul>
+  <li data-bullet="👩‍🚀">This is a list item</li>
+  <li data-bullet="✅">and this is another one.</li>
+</ul>
+<ul>
+  <li data-bullet="✅">This is a separate list.</li>
+</ul>
+<p>
+  This is a paragraph.
+  This is part of the same paragraph.
+</p>
+<p>
+  And this is another paragraph.
+</p>
+</body>
+</html>

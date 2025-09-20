@@ -8,12 +8,11 @@ A _grapheme cluster_ (as the Unicode standards calls it) represents a unit of te
 
 A grapheme cluster may be a single code point, or it may be a sequence of code points that are rendered as a single unit.
 
-> **Example**: The emoji "👩‍🚀" (WOMAN ASTRONAUT) is a single grapheme cluster that is composed of multiple code points, "👩" (U+1F469 - WOMAN), "ZWJ" (U+200D - ZERO WIDTH JOINER
-> and "🚀" (U+1F680 - ROCKET).
+> **Example**: The emoji "👩‍🚀" (WOMAN ASTRONAUT) is a single grapheme cluster that is composed of multiple code points, "👩" (U+1F469 - WOMAN), "ZWJ" (U+200D - ZERO WIDTH JOINER) and "🚀" (U+1F680 - ROCKET).
 
 The converse is not true, however. Not all sequences of code points that are rendered as a single unit are grapheme clusters.
 
-> **Example**: The string "ﬁ" can form a ligature and be rendered as a single glyph if the font and text rendering engine supports it, yet it is composed of two grapheme clusters, "f" and "i".
+> **Example**: The string "fi" can form a ligature and be rendered as a single glyph if the font and text rendering engine supports it, yet it is composed of two grapheme clusters, "f" and "i".
 
 ## <a name="codepoint">Code points</a>
 

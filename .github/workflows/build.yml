@@ -135,10 +135,10 @@ jobs:
       - name: Build 'luagrapheme'
         run: |
           make LUA_DIR="$(pwd)/.lua" \
-            CC="gcc" \
-            CFLAGS="-std=c99 -pedantic -g -Og -fPIC -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=undefined" \
-            LDFLAGS="-shared -fPIC -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=undefined" \
-            all && \
+            CFLAGS="-std=c99 -pedantic -g -Og -fPIC -fsanitize=address \
+              -fsanitize=undefined -fno-sanitize-recover=undefined" \
+            LDFLAGS="-shared -fPIC -fsanitize=address -fsanitize=undefined \
+              -fno-sanitize-recover=undefined" all && \
             sudo make LUA_VERSION="${{ matrix.lua_version }}" install
 
       - name: Test 'luagrapheme'

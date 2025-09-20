@@ -11,8 +11,7 @@ ALL_CFLAGS = \
 	$(CFLAGS)
 
 ALL_LDFLAGS = \
-	-L$(LIBGRAPHEME_LIBDIR) \
-	-lgrapheme \
+	$(LIBGRAPHEME_LDFLAGS) \
 	$(LDFLAGS)
 
 SRC = \

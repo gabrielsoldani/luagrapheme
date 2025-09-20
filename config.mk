@@ -14,6 +14,12 @@ LIBGRAPHEME_DIR = /usr/local
 LIBGRAPHEME_LIBDIR = $(LIBGRAPHEME_DIR)/lib
 LIBGRAPHEME_INCDIR = $(LIBGRAPHEME_DIR)/include
 
+# libgrapheme static linking (comment out if dynamic linking)
+LIBGRAPHEME_LDFLAGS = $(LIBGRAPHEME_LIBDIR)/libgrapheme.a
+
+# libgrapheme dynamic linking (comment out if static linking)
+# LIBGRAPHEME_LDFLAGS = -L$(LIBGRAPHEME_LIBDIR) -lgrapheme
+
 # Install paths
 LUA_VERSION = 5.4
 DESTDIR =
@@ -22,7 +28,7 @@ INST_LIBDIR = $(INST_PREFIX)/lib
 INST_LUADIR = $(INST_PREFIX)/share/lua/$(LUA_VERSION)
 
 # Flags
-CFLAGS = -O2 -fPIC -Wall -Wextra -Werror
+CFLAGS = -std=c99 -pedantic -O2 -fPIC -Wall -Wextra -Werror
 LDFLAGS = -shared
 BUSTEDFLAGS = -Xoutput "--color"
 
@@ -34,7 +40,7 @@ O = o
 CP = cp
 MKDIR = mkdir
 RM = rm
-CC = c99
+CC = gcc
 LD = ld
 BUSTED = busted
 LUACHECK = luacheck

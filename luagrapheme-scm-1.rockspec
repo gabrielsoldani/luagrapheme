@@ -1,5 +1,6 @@
 local package_version = "scm"
 local rockspec_revision = "1"
+local link_statically_to_libgrapheme = true
 
 rockspec_format = "3.0"
 package = "luagrapheme"
@@ -25,10 +26,8 @@ dependencies = {
 }
 
 external_dependencies = {
-   LIBGRAPHEME = {
-      header = "grapheme.h",
-      library = "grapheme",
-   },
+   LIBGRAPHEME = link_statically_to_libgrapheme and { header = "grapheme.h" }
+      or { header = "grapheme.h", library = "grapheme" },
 }
 
 build_dependencies = {}
@@ -51,6 +50,9 @@ build = {
       LIBGRAPHEME_DIR = "$(LIBGRAPHEME_DIR)",
       LIBGRAPHEME_INCDIR = "$(LIBGRAPHEME_INCDIR)",
       LIBGRAPHEME_LIBDIR = "$(LIBGRAPHEME_LIBDIR)",
+      LIBGRAPHEME_LDFLAGS = link_statically_to_libgrapheme
+         and "$(LIBGRAPHEME_DIR)/lib/libgrapheme.a"
+         or  "-L$(LIBGRAPHEME_LIBDIR) -lgrapheme",
    },
    install_variables = {
       CP = "$(CP)",

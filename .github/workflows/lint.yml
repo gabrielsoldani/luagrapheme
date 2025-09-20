@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run 'make lint-clang-format'
         run: make CLANG_FORMAT="clang-format-18" lint-clang-format
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup 'lua'
         uses: leafo/gh-actions-lua@v11
@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup 'stylua'
         run: npm install -g @johnnymorganz/stylua-bin@0.18.2

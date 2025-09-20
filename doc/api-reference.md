@@ -52,13 +52,27 @@ An integer representing the index of the first grapheme cluster strictly after `
 ```lua
 graphemes = require("luagrapheme").graphemes
 
-text = "Hello, 世界"
+text = "Hello, 세상"
 start = 8    --^
 next_index = graphemes.index_after(text, start)
 print(next_index)
+--> 14
+print(text:sub(start, next_index - 1))
+--> 세
+```
+
+In contrast, using `string.find` with `utf8.charpattern` returns only the first jamo (a component of a Hangul syllable):
+
+```lua
+utf8 = require("utf8")
+
+text = "Hello, 세상"
+start = 8    --^
+next_index = text:find(utf8.charpattern, next_index + 1)
+print(next_index)
 --> 11
 print(text:sub(start, next_index - 1))
---> 世
+--> ᄉ
 ```
 
 ### <a name="luagrapheme.graphemes.iter">`graphemes.iter(s, start)`</a>
@@ -79,14 +93,29 @@ An iterator function, suitable for use in [_generic for statements_][generic-for
 ```lua
 graphemes = require("luagrapheme").graphemes
 
-text = "Hello, 世界"
+text = "Hello, 세상"
 t = {}
 for i, j in graphemes.iter(text) do
    t[#t + 1] = text:sub(i, j)
 end
 
 print(table.concat(t, "|"))
---> H|e|l|l|o|,| |世|界
+--> H|e|l|l|o|,| |세|상
+```
+
+In contrast, using `string.gmatch` with the pattern `utf8.charpattern` returns
+individual jamos (the components of Hangul syllables):
+
+```lua
+utf8 = require("utf8")
+
+text = "Hello, 세상"
+t = {}
+for c in text:gmatch(utf8.charpattern) do
+   t[#t + 1] = c
+end
+print(table.concat(t, "|"))
+--> H|e|l|l|o|,| |ᄉ|ᅦ|ᄉ|ᅡ|ᆼ
 ```
 
 ### <a name="luagrapheme.lines">`lines(s, start)`</a>

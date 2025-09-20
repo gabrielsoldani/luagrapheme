@@ -52,7 +52,7 @@ jobs:
         run: luarocks test
 
   make:
-    name: Build with make
+    name: Build and test with make
     strategy:
       fail-fast: false
       matrix:
@@ -96,9 +96,17 @@ jobs:
       - name: Test 'luagrapheme'
         run: make test
 
-  ubsan:
-    name: UBSan
-    runs-on: ubuntu-24.04
+  sanitizers:
+    name: Build and test with sanitizers
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+        lua_version:
+          - "5.1"
+
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -113,16 +121,25 @@ jobs:
       - name: Setup 'lua'
         uses: luarocks/gh-actions-lua@v11
         with:
-          luaVersion: 5.1
+          luaVersion: ${{ matrix.lua_version }}
 
       - name: Setup 'luarocks'
         uses: luarocks/gh-actions-luarocks@v6
 
+      - name: Install dependencies
+        run: |
+          luarocks install compat53
+          luarocks install busted
+          luarocks install lpeg
+
       - name: Build 'luagrapheme'
         run: |
-          luarocks make --verbose \
-            CFLAGS="-g -O1 -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined" \
-            LIBFLAG="-shared -fPIC -fsanitize=undefined -fno-sanitize-recover=undefined"
+          make LUA_DIR="$(pwd)/.lua" \
+            CC="gcc" \
+            CFLAGS="-std=c99 -pedantic -g -Og -fPIC -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=undefined" \
+            LDFLAGS="-shared -fPIC -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=undefined" \
+            all && \
+            sudo make LUA_VERSION="${{ matrix.lua_version }}" install
 
       - name: Test 'luagrapheme'
-        run: luarocks test
+        run: LD_PRELOAD="$(gcc --print-file-name=libasan.so):$(gcc --print-file-name=libubsan.so)" make test
